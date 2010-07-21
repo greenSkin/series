@@ -1,0 +1,5 @@
+; $Id$
+name = Series
+description = "Provides the ability to tie nodes into series."
+dependencies[] = views
+core = 6.x

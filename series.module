@@ -1,0 +1,175 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Provides the ability to tie nodes into series.
+ *
+ * @author greenSkin
+ */
+
+/**
+ * Implementation of hook_perm().
+ */
+function series_perm() {
+  return array('view all series');
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function series_menu() {
+  $items['admin/settings/series'] = array(
+    'title' => 'Series',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('series_admin_form'),
+    'access arguments' => array('administer series'),
+    'file' => 'series.admin.inc'
+  );
+  $items['node/%series_node/edit/general'] = array(
+    'title' => 'General',
+    'page callback' => 'node_page_edit',
+    'page arguments' => array(1),
+    'access callback' => 'node_access',
+    'access arguments' => array('update', 1),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => 0
+  );
+  $items['node/%series_node/edit/series'] = array(
+    'title' => 'Series',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('series_edit_form', 1),
+    'access callback' => 'node_access',
+    'access arguments' => array('update', 1),
+    'file' => 'series.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_form_FORM_ID_alter().
+ */
+function series_form_taxonomy_form_vocabulary_alter(&$form, &$form_state) {
+  if ($form['vid']['#value'] == variable_get('series_vid', 0)) {
+    $form['settings']['#description'] = t('This vocabulary is chosen as the !link, and as such the tags, multiple select, and required fields have been disabled.', array('!link' => l(t('Lesson Series vocabulary'), 'admin/settings/lesson/series')));
+    $form['settings']['tags']['#disabled'] = TRUE;
+    $form['settings']['tags']['#value'] = 0;
+    $form['settings']['multiple']['#disabled'] = TRUE;
+    $form['settings']['multiple']['#value'] = 0;
+    $form['settings']['required']['#disabled'] = TRUE;
+    $form['settings']['required']['#value'] = 1;
+  }
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function series_theme() {
+  return array(
+    'series_edit_form' => array(
+      'arguments' => array('form' => NULL)
+    )
+  );
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function series_views_api() {
+  return array(
+    'api' => 2,
+    'path' => drupal_get_path('module', 'series') .'/views'
+  );
+}
+
+function series_node_load($nid) {
+  if (!is_numeric($nid)) {
+    return FALSE;
+  }
+  $node = node_load($nid);
+  if (isset($node->type)) {
+    $vocabulary = taxonomy_vocabulary_load(variable_get('series_vid', 0));
+    if ($vocabulary && in_array($node->type, $vocabulary->nodes)) {
+      if ($series = series_load($node)) {
+        return $node;
+      }
+    }
+  }
+  return FALSE;
+}
+
+function series_load($param) {
+  static $series = array();
+
+  if (is_object($param)) {
+    // Only node objects.
+    if (isset($param->nid) && $param->nid > 0) {
+      if (!isset($series['node'][$param->nid])) {
+        $series['node'][$param->nid] = _series_load_node_series($param);
+      }
+      return $series['node'][$param->nid];
+    }
+    return FALSE;
+  }
+
+  $tid = $param;
+  if (!isset($series['term'][$tid])) {
+    // Grab cached if exists.
+    if ($cache = cache_get('series:'. $tid, 'cache_series')) {
+      $term_series = $cache->data;
+    }
+    else {
+      $term_series = taxonomy_get_term($tid);
+
+      if (!empty($term_series)) {
+        $term_series->nodes = array();
+        $result = taxonomy_select_nodes(array($tid));
+        $result = taxonomy_select_nodes(array($tid));
+        while ($data = db_fetch_array($result)) {
+          $data['weight'] = (int)db_result(db_query("SELECT weight FROM {series_weight} WHERE tid = %d AND nid = %d", $tid, $data['nid']));
+          $term_series->nodes[$data['nid']] = $data;
+        }
+        uasort($term_series->nodes, 'series_sort');
+        // Save to cache.
+        cache_set('series:'. $tid, $term_series, 'cache_series');
+      }
+      else {
+        $term_series = FALSE;
+      }
+    }
+
+    $series['term'][$tid] = $term_series;
+  }
+  return $series['term'][$tid];
+}
+
+/**
+ * Helper function to sort nodes within a series.
+ */
+function series_sort($a, $b) {
+  if ($a['weight'] == $b['weight']) {
+    return 0;
+  }
+  return ($a['weight'] < $b['weight']) ? -1 : 1;
+}
+
+function _series_load_node_series($node) {
+  if ($vid = variable_get('series_vid', 0)) {
+    if (isset($node->taxonomy)) {
+      // Process terms differently based on if terms have been converted
+      // after a preview.
+      if (is_array(current($node->taxonomy))) {
+        return series_load($node->taxonomy[$vid]);
+      }
+      else {
+        foreach ($node->taxonomy as $term) {
+          if ($term->vid == $vid) {
+            return series_load($term->tid);
+          }
+        }
+      }
+    }
+  }
+}

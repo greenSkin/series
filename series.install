@@ -1,0 +1,67 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_schema().
+ */
+function series_schema() {
+  $schema['series_weight'] = array(
+    'description' => t('Provides the ability to record node weights in a series.'),
+    'fields' => array(
+      'tid' => array(
+        'description' => t('The term ID for the series that the node belongs to.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0
+      ),
+      'nid' => array(
+        'description' => t('The {node}.nid identifier.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0
+      ),
+      'weight' => array(
+        'description' => t('Lesson weight within the series.'),
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'tiny'
+      )
+    ),
+    'unique keys' => array(
+      'tid_nid' => array('tid', 'nid')
+    ),
+  );
+  $schema['cache_series'] = drupal_get_schema_unprocessed('system', 'cache');
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function series_install() {
+  $t = get_t();
+
+  $result = db_query("SELECT vid FROM {vocabulary} WHERE name = '%s'", $t('Series'));
+  if ($vocab = db_fetch_object($result)){
+    $vid = $vocab->vid;
+  }
+  else { // If none, create one.
+    db_query("INSERT INTO {vocabulary} (name, description, help, relations, hierarchy, multiple, required, tags, module, weight)
+      VALUES ('%s', '%s', '%s', 1, 0, 0, 1, 0, 'series', 0)", $t('Series'), $t('A Series of nodes.'), $t('Select a series that this node will be tied to.'));
+    $vid = db_last_insert_id('vocabulary', 'vid');
+  }
+
+  variable_set('series_vid', $vid);
+
+  drupal_install_schema('series');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function series_uninstall() {
+  drupal_uninstall_schema('series');
+}
