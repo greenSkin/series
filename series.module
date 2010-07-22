@@ -158,10 +158,20 @@ function series_load($param) {
 
 function series_node_edit_redirect_submit($form, &$form_state) {
   if ($form_state['values']['nid']) {
-    // $form_state['redirect'] does not work here since the node module forces
-    // a redirect back to the node view page, however the destination query
-    // redirect works so we use that.
-    $_REQUEST['destination'] = 'node/'. $form_state['values']['nid'] .'/edit/series';
+    $vid = variable_get('series_vid', 0);
+    if (isset($form_state['values']['taxonomy']['tags']) && isset($form_state['values']['taxonomy']['tags'][$vid])) {
+      $term = $form_state['values']['taxonomy']['tags'][$vid];
+    }
+    else if (isset($form_state['values']['taxonomy'][$vid])) {
+      $term = $form_state['values']['taxonomy'][$vid];
+    }
+
+    if (isset($term) && $term != NULL) {
+      // $form_state['redirect'] does not work here since the node module forces
+      // a redirect back to the node view page, however the destination query
+      // redirect works so we use that.
+      $_REQUEST['destination'] = 'node/'. $form_state['values']['nid'] .'/edit/series';
+    }
   }
 }
 
