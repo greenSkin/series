@@ -31,7 +31,7 @@ function series_admin_form() {
 function series_admin_form_submit($form, &$form_state) {
   // Ensure the newly set vocabulary has 'tags' and 'multiple select' disabled
   // and 'required' enabled.
-  db_query("UPDATE {vocabulary} SET multiple = 0, required = 1 WHERE vid = %d", $form_state['values']['series_vid']);
+  db_query("UPDATE {vocabulary} SET multiple = 0 WHERE vid = %d", $form_state['values']['series_vid']);
   drupal_set_message(t('The series vocabulary settings have been set.'));
 }
 
