@@ -49,13 +49,26 @@ function series_menu() {
 }
 
 /**
+ * Implementation of hook_form_alter().
+ */
+function series_form_alter(&$form, &$form_state, $form_id) {
+  // Ensure this is a node form.
+  if (isset($form['type']) && isset($form['#node']) && $form['type']['#value'] .'_node_form' == $form_id) {
+    // Ensure this node type is using the series vocabulary.
+    $vocabulary = taxonomy_vocabulary_load(variable_get('series_vid', 0));
+    if ($vocabulary && in_array($form['type']['#value'], $vocabulary->nodes)) {
+      // Set a submit function that redirects to the series edit page.
+      $form['#submit'][] = 'series_node_edit_redirect_submit';
+    }
+  }
+}
+
+/**
  * Implementation of hook_form_FORM_ID_alter().
  */
 function series_form_taxonomy_form_vocabulary_alter(&$form, &$form_state) {
   if ($form['vid']['#value'] == variable_get('series_vid', 0)) {
-    $form['settings']['#description'] = t('This vocabulary is chosen as the !link, and as such the tags, multiple select, and required fields have been disabled.', array('!link' => l(t('Lesson Series vocabulary'), 'admin/settings/lesson/series')));
-    $form['settings']['tags']['#disabled'] = TRUE;
-    $form['settings']['tags']['#value'] = 0;
+    $form['settings']['#description'] = t('This vocabulary is chosen as the !link, and as such the multiple select and required fields have been disabled.', array('!link' => l(t('Lesson Series vocabulary'), 'admin/settings/lesson/series')));
     $form['settings']['multiple']['#disabled'] = TRUE;
     $form['settings']['multiple']['#value'] = 0;
     $form['settings']['required']['#disabled'] = TRUE;
@@ -143,6 +156,15 @@ function series_load($param) {
     $series['term'][$tid] = $term_series;
   }
   return $series['term'][$tid];
+}
+
+function series_node_edit_redirect_submit($form, &$form_state) {
+  if ($form_state['values']['nid']) {
+    // $form_state['redirect'] does not work here since the node module forces
+    // a redirect back to the node view page, however the destination query
+    // redirect works so we use that.
+    $_REQUEST['destination'] = 'node/'. $form_state['values']['nid'] .'/edit/series';
+  }
 }
 
 /**
