@@ -60,9 +60,11 @@ function series_edit_form($form_state, $node) {
     );
   }
 
+  $form += series_create_form($form_state, $series);
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Submit')
+    '#value' => t('Save'),
+    '#submit' => array('series_edit_form_submit')
   );
   return $form;
 }
@@ -74,6 +76,59 @@ function series_edit_form_submit($form, &$form_state) {
   }
   // Clear the cache for this particular series.
   cache_clear_all('series:'. $form_state['values']['tid'], 'cache_series');
+}
+
+function series_create_form($form_state, $series) {
+  $vid = variable_get('series_vid', 0);
+  $vocabulary = taxonomy_vocabulary_load($vid);
+  $types = array();
+  foreach ($vocabulary->nodes as $type) {
+    if (user_access('create '. $type .' content')) {
+      $types[$type] = $type;
+    }
+  }
+
+  $form = array();
+  if (!empty($types)) {
+    $form['add_field']['#tree'] = TRUE;
+    $form['add_field']['#theme'] = 'series_create_form';
+    if (count($types) == 1) {
+      $form['add_field']['add'] = array(
+        '#type' => 'button',
+        '#value' => t('Add another'),
+        '#validate' => array('series_edit_form_create_redirect')
+      );
+    }
+    else {
+      $options = array(t('-- Select content type --'));
+      foreach (node_get_types('names') as $type => $name) {
+        if (isset($types[$type])) {
+          $options[$type] = $name;
+        }
+      }
+      $form['add_field']['select'] = array(
+        '#type' => 'select',
+        '#title' => t('Add another'),
+        '#options' => $options
+      );
+      $form['add_field']['add'] = array(
+        '#type' => 'button',
+        '#value' => t('Add another'),
+        '#validate' => array('series_edit_form_create_redirect'),
+        '#attributes' => array('class' => 'js-hide')
+      );
+    }
+  }
+  return $form;
+}
+
+function series_edit_form_create_redirect($form, &$form_state) {
+  if ($form_state['values']['add_field']['select']) {
+    drupal_goto('node/add/'. $form_state['values']['add_field']['select']);
+  }
+  else {
+    form_set_error('add_field][select', t('Select a content type.'));
+  }
 }
 
 function theme_series_edit_form($form) {
@@ -98,4 +153,10 @@ function theme_series_edit_form($form) {
   $output = theme('table', $headers, $rows, array('id' => 'series-nodes'));
   $output .= drupal_render($form);
   return $output;
+}
+
+function theme_series_create_form($form) {
+  drupal_add_js(drupal_get_path('module', 'series') .'/js/admin.js');
+
+  return '<div>'. drupal_render($form) .'</div>';
 }

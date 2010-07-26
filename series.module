@@ -82,6 +82,9 @@ function series_theme() {
   return array(
     'series_edit_form' => array(
       'arguments' => array('form' => NULL)
+    ),
+    'series_create_form' => array(
+      'arguments' => array('form' => NULL)
     )
   );
 }
