@@ -139,10 +139,16 @@ function theme_series_edit_form($form) {
 
   foreach (element_children($form['nodes']) as $nid) {
     $form['nodes'][$nid]['weight']['#attributes']['class'] = 'node-weight';
+    $operations = array(
+      l(t('View'), 'node/'. $nid)
+    );
+    if (user_access('edit any '. $form['#series']->nodes[$nid]['type'] .' content')) {
+      $operations[] = l(t('Edit'), 'node/'. $nid .'/edit');
+    }
     $row = array(
       array('data' => check_plain($form['#series']->nodes[$nid]['title'])),
       array('data' => drupal_render($form['nodes'][$nid])),
-      array('data' => user_access('edit any '. $form['#series']->nodes[$nid]['type'] .' content') ? l(t('Edit'), 'node/'. $nid .'/edit') : '')
+      array('data' => theme('item_list', $operations, NULL, 'ul', array('class' => 'links')))
     );
     $rows[] = array(
       'data' => $row,
