@@ -71,6 +71,7 @@ function series_form_taxonomy_form_vocabulary_alter(&$form, &$form_state) {
     $form['settings']['#description'] = t('This vocabulary is chosen as the !link, and as such the multiple select field have been disabled.', array('!link' => l(t('Lesson Series vocabulary'), 'admin/settings/lesson/series')));
     $form['settings']['multiple']['#type'] = 'hidden';
     $form['settings']['multiple']['#value'] = 0;
+    $form['#submit'][] = 'series_taxonomy_form_vocabulary_submit';
   }
 }
 
@@ -83,6 +84,13 @@ function series_theme() {
       'arguments' => array('form' => NULL)
     )
   );
+}
+
+/**
+ * Implementation of hook_flush_caches().
+ */
+function series_flush_caches() {
+  return array('cache_series');
 }
 
 /**
@@ -137,7 +145,6 @@ function series_load($param) {
       if (!empty($term_series)) {
         $term_series->nodes = array();
         $result = taxonomy_select_nodes(array($tid));
-        $result = taxonomy_select_nodes(array($tid));
         while ($data = db_fetch_array($result)) {
           $data['weight'] = (int)db_result(db_query("SELECT weight FROM {series_weight} WHERE tid = %d AND nid = %d", $tid, $data['nid']));
           $term_series->nodes[$data['nid']] = $data;
@@ -173,6 +180,10 @@ function series_node_edit_redirect_submit($form, &$form_state) {
       $_REQUEST['destination'] = 'node/'. $form_state['values']['nid'] .'/edit/series';
     }
   }
+}
+
+function series_taxonomy_form_vocabulary_submit($form, &$form_state) {
+  cache_clear_all('*', 'cache_series');
 }
 
 /**
