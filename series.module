@@ -143,13 +143,16 @@ function series_load($param) {
       $term_series = taxonomy_get_term($tid);
 
       if (!empty($term_series)) {
+        // Build array of nodes tied to this series.
         $term_series->nodes = array();
         $result = taxonomy_select_nodes(array($tid));
         while ($data = db_fetch_array($result)) {
           $data['weight'] = (int)db_result(db_query("SELECT weight FROM {series_weight} WHERE tid = %d AND nid = %d", $tid, $data['nid']));
           $term_series->nodes[$data['nid']] = $data;
         }
+        // Sort the nodes.
         uasort($term_series->nodes, 'series_sort');
+
         // Save to cache.
         cache_set('series:'. $tid, $term_series, 'cache_series');
       }
