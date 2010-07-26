@@ -169,7 +169,12 @@ function series_load($param) {
         $term_series->nodes = array();
         $result = taxonomy_select_nodes(array($tid));
         while ($data = db_fetch_array($result)) {
+          // Specify the node's type.
+          $data['type'] = db_result(db_query("SELECT type FROM {node} WHERE nid = %d", $data['nid']));
+
+          // Get the weight of the node in the series.
           $data['weight'] = (int)db_result(db_query("SELECT weight FROM {series_weight} WHERE tid = %d AND nid = %d", $tid, $data['nid']));
+
           $term_series->nodes[$data['nid']] = $data;
         }
         // Sort the nodes.

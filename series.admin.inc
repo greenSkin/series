@@ -142,7 +142,7 @@ function theme_series_edit_form($form) {
     $row = array(
       array('data' => check_plain($form['#series']->nodes[$nid]['title'])),
       array('data' => drupal_render($form['nodes'][$nid])),
-      array('data' => l(t('Edit'), 'node/'. $nid .'/edit'))
+      array('data' => user_access('edit any '. $form['#series']->nodes[$nid]['type'] .' content') ? l(t('Edit'), 'node/'. $nid .'/edit') : '')
     );
     $rows[] = array(
       'data' => $row,
