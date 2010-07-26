@@ -124,7 +124,7 @@ function series_create_form($form_state, $series) {
 
 function series_edit_form_create_redirect($form, &$form_state) {
   if ($form_state['values']['add_field']['select']) {
-    drupal_goto('node/add/'. $form_state['values']['add_field']['select']);
+    drupal_goto('node/add/'. $form_state['values']['add_field']['select'], array('series' => $form_state['values']['tid']));
   }
   else {
     form_set_error('add_field][select', t('Select a content type.'));

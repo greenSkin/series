@@ -57,6 +57,25 @@ function series_form_alter(&$form, &$form_state, $form_id) {
     // Ensure this node type is using the series vocabulary.
     $vocabulary = taxonomy_vocabulary_load(variable_get('series_vid', 0));
     if ($vocabulary && in_array($form['type']['#value'], $vocabulary->nodes)) {
+      // If series query string exists, set the series input and disable it so
+      // it can't be changed.
+      if (isset($_REQUEST['series']) && is_numeric($_REQUEST['series'])) {
+        $term = taxonomy_get_term($_REQUEST['series']);
+        if ($term && $term->vid == $vocabulary->vid) {
+          if (isset($form['taxonomy']['tags']) && isset($form['taxonomy']['tags'][$term->vid])) {
+            $element = &$form['taxonomy']['tags'][$term->vid];
+            $element['#value'] = $term->name;
+            $element['#disabled'] = TRUE;
+            unset($element['#autocomplete_path']);
+          }
+          else if (isset($form['taxonomy'][$term->vid])) {
+            $element = &$form['taxonomy'][$term->vid];
+            $element['#value'] = $term->tid;
+            $element['#disabled'] = TRUE;
+          }
+        }
+      }
+
       // Set a submit function that redirects to the series edit page.
       $form['#submit'][] = 'series_node_edit_redirect_submit';
     }
