@@ -93,6 +93,10 @@ function series_create_form($form_state, $series) {
     $form['add_field']['#tree'] = TRUE;
     $form['add_field']['#theme'] = 'series_create_form';
     if (count($types) == 1) {
+      $form['add_field']['select'] = array(
+        '#type' => 'hidden',
+        '#value' => key($types)
+      );
       $form['add_field']['add'] = array(
         '#type' => 'button',
         '#value' => t('Add another'),
