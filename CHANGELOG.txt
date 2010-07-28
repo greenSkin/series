@@ -18,3 +18,5 @@ by greenSkin: Set #theme on series_edit_form so series_node_edit_form utilizes
   page, by using the hook_nodeapi we can.
 by greenSkin: Added additional menu items for series pages and updated 
   series_access() to use $op (view, update, etc.).
+by greenSkin: Created the series page that lists the teasers of nodes in the 
+  series.
