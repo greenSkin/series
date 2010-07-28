@@ -45,12 +45,26 @@ function series_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 1
   );
+  $items['series/%series'] = array(
+    'title callback' => 'series_page_title',
+    'title arguments' => array(1),
+    'page callback' => 'series_page_view',
+    'page arguments' => array(1),
+    'access callback' => 'series_access',
+    'access arguments' => array('view', 1),
+    'type' => MENU_CALLBACK
+  );
+  $items['series/%series/view'] = array(
+    'title' => 'View',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10
+  );
   $items['series/%series/edit'] = array(
-    'title' => 'Series',
+    'title' => 'Edit',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('series_edit_form', 1),
     'access callback' => 'series_access',
-    'access arguments' => array(1),
+    'access arguments' => array('update', 1),
     'file' => 'series.admin.inc',
     'type' => MENU_LOCAL_TASK,
     'weight' => 1
@@ -181,35 +195,41 @@ function series_views_api() {
   );
 }
 
-function series_access($series, $account = NULL) {
+function series_access($op, $series, $account = NULL) {
   global $user;
-  static $access = array();
 
   if (!isset($account)) {
     $account = $user;
   }
 
-  if (user_access('edit any series', $account)) {
-    return TRUE;
-  }
+  switch ($op) {
+    case 'view':
+      return user_access('view all series', $account);
+    case 'update':
+      static $update = array();
 
-  if (!isset($access[$series->tid][$account->uid])) {
-    // Default access to false.
-    $access[$series->tid][$account->uid] = FALSE;
+      if (user_access('edit any series', $account)) {
+        return TRUE;
+      }
 
-    if (user_access('edit own series', $account)) {
-      // Look to see if the account has created a node within this series.
-      foreach ($series->nodes as $node) {
-        $uid = db_result(db_rewrite_sql('SELECT n.uid FROM {node} AS n WHERE n.nid = %d', $node['nid']));
-        if ($uid == $account->uid) {
-          $access[$series->tid][$account->uid] = TRUE;
-          break;
+      if (!isset($update[$series->tid][$account->uid])) {
+        // Default access to false.
+        $update[$series->tid][$account->uid] = FALSE;
+
+        if (user_access('edit own series', $account)) {
+          // Look to see if the account has created a node within this series.
+          foreach ($series->nodes as $node) {
+            $uid = db_result(db_rewrite_sql('SELECT n.uid FROM {node} AS n WHERE n.nid = %d', $node['nid']));
+            if ($uid == $account->uid) {
+              $update[$series->tid][$account->uid] = TRUE;
+              break;
+            }
+          }
         }
       }
-    }
-  }
 
-  return $access[$series->tid][$account->uid];
+      return $update[$series->tid][$account->uid];
+  }
 }
 
 function series_node_load($nid) {
