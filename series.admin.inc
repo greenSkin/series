@@ -35,8 +35,12 @@ function series_admin_form_submit($form, &$form_state) {
   drupal_set_message(t('The series vocabulary settings have been set.'));
 }
 
-function series_edit_form($form_state, $node) {
+function series_node_edit_form($form_state, $node) {
   $series = series_load($node);
+  return series_edit_form($form_state, $series);
+}
+
+function series_edit_form($form_state, $series) {
   $form = array(
     '#tree' => TRUE,
     '#series' => $series,

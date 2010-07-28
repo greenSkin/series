@@ -38,7 +38,7 @@ function series_menu() {
   $items['node/%series_node/edit/series'] = array(
     'title' => 'Series',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('series_edit_form', 1),
+    'page arguments' => array('series_node_edit_form', 1),
     'access callback' => 'node_access',
     'access arguments' => array('update', 1),
     'file' => 'series.admin.inc',

@@ -6,3 +6,6 @@ by greenSkin: Fixed 'Add another' button to validate and redirect correctly when
   only one content type is used for the series vocabulary.
 by greenSkin: Added series edit menu item '/series/%series/edit'. Added 
   series_access function.
+by greenSkin: Added a wrapper function for the node series edit page callback to 
+  use the series_edit_form and pass it the series object instead of the node 
+  object.
