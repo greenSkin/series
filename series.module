@@ -12,7 +12,7 @@
  * Implementation of hook_perm().
  */
 function series_perm() {
-  return array('view all series');
+  return array('view all series', 'edit own series', 'edit any series');
 }
 
 /**
@@ -41,6 +41,16 @@ function series_menu() {
     'page arguments' => array('series_edit_form', 1),
     'access callback' => 'node_access',
     'access arguments' => array('update', 1),
+    'file' => 'series.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1
+  );
+  $items['series/%series/edit'] = array(
+    'title' => 'Series',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('series_edit_form', 1),
+    'access callback' => 'series_access',
+    'access arguments' => array(1),
     'file' => 'series.admin.inc',
     'type' => MENU_LOCAL_TASK,
     'weight' => 1
@@ -154,6 +164,37 @@ function series_views_api() {
     'api' => 2,
     'path' => drupal_get_path('module', 'series') .'/views'
   );
+}
+
+function series_access($series, $account = NULL) {
+  global $user;
+  static $access = array();
+
+  if (!isset($account)) {
+    $account = $user;
+  }
+
+  if (user_access('edit any series', $account)) {
+    return TRUE;
+  }
+
+  if (!isset($access[$series->tid][$account->uid])) {
+    // Default access to false.
+    $access[$series->tid][$account->uid] = FALSE;
+
+    if (user_access('edit own series', $account)) {
+      // Look to see if the account has created a node within this series.
+      foreach ($series->nodes as $node) {
+        $uid = db_result(db_rewrite_sql('SELECT n.uid FROM {node} AS n WHERE n.nid = %d', $node['nid']));
+        if ($uid == $account->uid) {
+          $access[$series->tid][$account->uid] = TRUE;
+          break;
+        }
+      }
+    }
+  }
+
+  return $access[$series->tid][$account->uid];
 }
 
 function series_node_load($nid) {
