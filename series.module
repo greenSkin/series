@@ -45,20 +45,6 @@ function series_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 1
   );
-  $items['series/%series'] = array(
-    'title callback' => 'series_page_title',
-    'title arguments' => array(1),
-    'page callback' => 'series_page_view',
-    'page arguments' => array(1),
-    'access callback' => 'series_access',
-    'access arguments' => array('view', 1),
-    'type' => MENU_CALLBACK
-  );
-  $items['series/%series/view'] = array(
-    'title' => 'View',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'weight' => -10
-  );
   $items['series/%series/edit'] = array(
     'title' => 'Edit',
     'page callback' => 'drupal_get_form',
@@ -230,23 +216,6 @@ function series_access($op, $series, $account = NULL) {
 
       return $update[$series->tid][$account->uid];
   }
-}
-
-function series_page_title($series) {
-  return $series->name;
-}
-
-function series_page_view($series) {
-  $output = '';
-  foreach ($series->nodes as $node) {
-    $output .= node_view(node_load($node['nid']), 1);
-  }
-
-  if (empty($output)) {
-    $output  = t('No nodes have yet been tied to this series.');
-  }
-
-  return $output;
 }
 
 function series_node_load($nid) {
