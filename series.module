@@ -100,8 +100,8 @@ function series_form_taxonomy_form_vocabulary_alter(&$form, &$form_state) {
 function series_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   switch ($op) {
     case 'view':
-      // If we are not a teaser but we are a page show applicable next/previous
-      // links to other nodes in this nodes series.
+      // If we are not a teaser show applicable next/previous links to other
+      // nodes in this nodes series.
       if ($a3 == FALSE) {
         if ($series = series_load($node)) {
           list($prev, $next) = series_navigation_links($series, $node);
