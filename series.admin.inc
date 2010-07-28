@@ -42,6 +42,7 @@ function series_node_edit_form($form_state, $node) {
 
 function series_edit_form($form_state, $series) {
   $form = array(
+    '#theme' => 'series_edit_form',
     '#tree' => TRUE,
     '#series' => $series,
     'nodes' => array()

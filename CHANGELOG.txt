@@ -9,3 +9,10 @@ by greenSkin: Added series edit menu item '/series/%series/edit'. Added
 by greenSkin: Added a wrapper function for the node series edit page callback to 
   use the series_edit_form and pass it the series object instead of the node 
   object.
+by greenSkin: Set #theme on series_edit_form so series_node_edit_form utilizes 
+  the same theme callback. Redirecting to series edit page now works when 
+  creating new nodes in a series. Instead of using a submit function to perform 
+  the redirection, we perform the operation in hook_nodeapi with ops insert and 
+  update. The $form_state['values'] on submission of a newly created node has 
+  not yet been given a nid so we couldn't redirect to the node's series edit 
+  page, by using the hook_nodeapi we can.

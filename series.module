@@ -85,9 +85,6 @@ function series_form_alter(&$form, &$form_state, $form_id) {
           }
         }
       }
-
-      // Set a submit function that redirects to the series edit page.
-      $form['#submit'][] = 'series_node_edit_redirect_submit';
     }
   }
 }
@@ -109,6 +106,24 @@ function series_form_taxonomy_form_vocabulary_alter(&$form, &$form_state) {
  */
 function series_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   switch ($op) {
+    case 'insert':
+    case 'update':
+      // Set redirect destination.
+      $vid = variable_get('series_vid', 0);
+      if (isset($node->taxonomy['tags']) && isset($node->taxonomy['tags'][$vid])) {
+        $term = $node->taxonomy['tags'][$vid];
+      }
+      else if (isset($form_state['values']['taxonomy'][$vid])) {
+        $term = $node->taxonomy[$vid];
+      }
+
+      if (isset($term) && $term != NULL) {
+        // $form_state['redirect'] does not work here since the node module forces
+        // a redirect back to the node view page, however the destination query
+        // redirect works so we use that.
+        $_REQUEST['destination'] = 'node/'. $node->nid .'/edit/series';
+      }
+      break;
     case 'view':
       // If we are not a teaser show applicable next/previous links to other
       // nodes in this nodes series.
@@ -263,25 +278,6 @@ function series_load($param) {
     $series['term'][$tid] = $term_series;
   }
   return $series['term'][$tid];
-}
-
-function series_node_edit_redirect_submit($form, &$form_state) {
-  if ($form_state['values']['nid']) {
-    $vid = variable_get('series_vid', 0);
-    if (isset($form_state['values']['taxonomy']['tags']) && isset($form_state['values']['taxonomy']['tags'][$vid])) {
-      $term = $form_state['values']['taxonomy']['tags'][$vid];
-    }
-    else if (isset($form_state['values']['taxonomy'][$vid])) {
-      $term = $form_state['values']['taxonomy'][$vid];
-    }
-
-    if (isset($term) && $term != NULL) {
-      // $form_state['redirect'] does not work here since the node module forces
-      // a redirect back to the node view page, however the destination query
-      // redirect works so we use that.
-      $_REQUEST['destination'] = 'node/'. $form_state['values']['nid'] .'/edit/series';
-    }
-  }
 }
 
 function series_taxonomy_form_vocabulary_submit($form, &$form_state) {
