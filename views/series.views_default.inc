@@ -238,6 +238,15 @@ function series_views_default_views() {
       'relationship' => 'none',
     ),
   ));
+  $handler->override_option('sorts', array(
+    'weight' => array(
+      'order' => 'ASC',
+      'id' => 'weight',
+      'table' => 'series_weight',
+      'field' => 'weight',
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('arguments', array(
     'tid' => array(
       'default_action' => 'not found',
@@ -300,6 +309,20 @@ function series_views_default_views() {
       'id' => 'status_extra',
       'table' => 'node',
       'field' => 'status_extra',
+      'relationship' => 'none',
+    ),
+    'weight' => array(
+      'operator' => '=',
+      'value' => '',
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'weight',
+      'table' => 'series_weight',
+      'field' => 'weight',
       'relationship' => 'none',
     ),
   ));

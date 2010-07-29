@@ -20,3 +20,5 @@ by greenSkin: Added Views default for series page, lists the available series'.
 by greenSkin: Added default view for listing nodes in a series.
 by greenSkin: Exposed {series_weight}.weight to Views. Added 
   series_handler_filter_series_node_weight handler.
+by greenSkin: Updated series_nodes default to incorporate the weight sort and 
+  filter.
