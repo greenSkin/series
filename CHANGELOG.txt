@@ -17,3 +17,4 @@ by greenSkin: Set #theme on series_edit_form so series_node_edit_form utilizes
   not yet been given a nid so we couldn't redirect to the node's series edit 
   page, by using the hook_nodeapi we can.
 by greenSkin: Added Views default for series page, lists the available series'.
+by greenSkin: Added default view for listing nodes in a series.
