@@ -177,6 +177,36 @@ function series_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 }
 
 /**
+ * Implementation of hook_block().
+ */
+function series_block($op = 'list', $delta = 0, $edit = array()) {
+  switch ($op) {
+    case 'list':
+      $blocks[0] = array(
+        'info' => t('Series navigation')
+      );
+      return $blocks;
+    case 'view':
+      if ($delta == 0) {
+        $series = menu_get_object('series');
+        dpm($series);
+        if (!$series) {
+          if ($node = menu_get_object()) {
+            $series = series_load($node);
+          }
+        }
+
+        if ($series) {
+          dpm($series);
+          $block['subject'] = t('Series');
+          $block['content'] = 'content';
+          return $block;
+        }
+      }
+  }
+}
+
+/**
  * Implementation of hook_theme().
  */
 function series_theme() {
