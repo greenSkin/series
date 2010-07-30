@@ -111,17 +111,40 @@ function series_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
       // Set redirect destination.
       $vid = variable_get('series_vid', 0);
       if (isset($node->taxonomy['tags']) && isset($node->taxonomy['tags'][$vid])) {
-        $term = $node->taxonomy['tags'][$vid];
+        $term = current(taxonomy_get_term_by_name($node->taxonomy['tags'][$vid]));
+        $tid = $term->tid;
       }
-      else if (isset($form_state['values']['taxonomy'][$vid])) {
-        $term = $node->taxonomy[$vid];
+      else if (isset($node->taxonomy[$vid])) {
+        $tid = $node->taxonomy[$vid];
       }
 
-      if (isset($term) && $term != NULL) {
+      // Determine if there was a former series the node was tied to.
+      $former_tid = db_result(db_query("SELECT tid FROM {series_weight} WHERE nid = %d", $node->nid));
+
+      if (isset($tid) && $tid != NULL) {
+        if ($tid != $former_tid) {
+          // Delete the node weight for the former series.
+          db_query("DELETE FROM {series_weight} WHERE nid = %d", $node->nid);
+
+          // Set a default weight for the node in the new series.
+          db_query("INSERT INTO {series_weight} (tid, nid, weight) VALUES (%d, %d, %d)", $tid, $node->nid, 0);
+
+          // Clear the caches for both series.
+          cache_clear_all('series:'. $former_tid, 'cache_series');
+          cache_clear_all('series:'. $tid, 'cache_series');
+        }
+
         // $form_state['redirect'] does not work here since the node module forces
         // a redirect back to the node view page, however the destination query
         // redirect works so we use that.
         $_REQUEST['destination'] = 'node/'. $node->nid .'/edit/series';
+      }
+      else if ($former_tid) {
+        // The node no longer is tied to a series.
+        db_query("DELETE FROM {series_weight} WHERE nid = %d", $node->nid);
+
+        // Clear the cache for the former series.
+        cache_clear_all('series:'. $former_tid, 'cache_series');
       }
       break;
     case 'view':
