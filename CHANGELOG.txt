@@ -11,6 +11,7 @@ by greenSkin: Instead of giving a default weight of 0 to nodes newly added to a
   This ensures the node initially is added to the end of the series since 
   weights start at -10 (gives a buffer of 10).
 by greenSkin: Initial implementation of hook_block() to show series navigation.
+by greenSkin: Initial work begun on embedding views to 'series/%'.
 
 
 Series 6.x-x.x, 2010-07-28

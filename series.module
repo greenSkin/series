@@ -45,6 +45,17 @@ function series_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 1
   );
+  $items['series/%series'] = array(
+    'page callback' => 'series_page_view',
+    'page arguments' => array(1),
+    'access arguments' => array('view all series'),
+    'type' => MENU_CALLBACK
+  );
+  $items['series/%series/view'] = array(
+    'title' => 'View',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' -10
+  );
   $items['series/%series/edit'] = array(
     'title' => 'Edit',
     'page callback' => 'drupal_get_form',
@@ -340,6 +351,11 @@ function series_load($param) {
     $series['term'][$tid] = $term_series;
   }
   return $series['term'][$tid];
+}
+
+function series_page_view($series) {
+  dprint_r(views_embed_view('series_nodes'));
+  return views_embed_view('series_nodes');
 }
 
 function series_taxonomy_form_vocabulary_submit($form, &$form_state) {
