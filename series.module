@@ -126,8 +126,11 @@ function series_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
           // Delete the node weight for the former series.
           db_query("DELETE FROM {series_weight} WHERE nid = %d", $node->nid);
 
-          // Set a default weight for the node in the new series.
-          db_query("INSERT INTO {series_weight} (tid, nid, weight) VALUES (%d, %d, %d)", $tid, $node->nid, 0);
+          // Set a default weight for the node in the new series. Put the node
+          // at the end of the series. To do that we use the count of nodes in
+          // the series as the weight for this node.
+          $series = series_load($tid);
+          db_query("INSERT INTO {series_weight} (tid, nid, weight) VALUES (%d, %d, %d)", $tid, $node->nid, count($series->nodes));
 
           // Clear the caches for both series.
           cache_clear_all('series:'. $former_tid, 'cache_series');

@@ -6,6 +6,10 @@ by greenSkin: Set a default weight to nodes in a series when they are first
   added to that series. Clean out the weight for a node in a series when it is 
   no longer tied to that series. Clear the caches for series a node was formerly 
   tied to and newly tied to.
+by greenSkin: Instead of giving a default weight of 0 to nodes newly added to a 
+  series, we give a weight that equals the count of nodes already in the series. 
+  This ensures the node initially is added to the end of the series since 
+  weights start at -10 (gives a buffer of 10).
 
 
 Series 6.x-x.x, 2010-07-28
