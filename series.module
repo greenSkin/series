@@ -45,6 +45,12 @@ function series_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 1
   );
+  $items['series'] = array(
+    'page callback' => 'views_page',
+    'page arguments' => array('series', 'default'),
+    'access callback' => 'views_access',
+    'type' => MENU_CALLBACK
+  );
   $items['series/%'] = array(
     'page callback' => 'views_page',
     'page arguments' => array('series_nodes', 'default', 1),
