@@ -12,6 +12,8 @@ by greenSkin: Reverted comments in views-view-fields--series.tpl.php to the
 by greenSkin: Added default theme template file for series_nodes view.
 by greenSkin: Renamed view series to series_list so as not to conflict with the 
   series tag.
+by greenSkin: Added nid field to series_nodes view and hid the title field. 
+  Updated the default views.
 
 
 Series 6.x-x.x, 2010-07-29
