@@ -16,6 +16,7 @@ by greenSkin: Added nid field to series_nodes view and hid the title field.
   Updated the default views.
 by greenSkin: Fixed page 'series' to use series_list view. Added title callback 
   as well.
+by greenSkin: Finished series block that lists other nodes in the active series.
 
 
 Series 6.x-x.x, 2010-07-29

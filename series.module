@@ -206,18 +206,22 @@ function series_block($op = 'list', $delta = 0, $edit = array()) {
       return $blocks;
     case 'view':
       if ($delta == 0) {
-        $series = menu_get_object('series');
-        dpm($series);
-        if (!$series) {
+        if (arg(0) == 'series' && is_numeric(arg(1))) {
+          $series = series_load(arg(1));
+        }
+        if (!isset($series) || !$series) {
           if ($node = menu_get_object()) {
             $series = series_load($node);
           }
         }
 
-        if ($series) {
-          dpm($series);
-          $block['subject'] = t('Series');
-          $block['content'] = 'content';
+        if (isset($series) && $series) {
+          $block['subject'] = check_plain($series->name);
+          $items = array();
+          foreach ($series->nodes as $node) {
+            $items[] = l($node['title'], 'node/'. $node['nid']);
+          }
+          $block['content'] = theme('item_list', $items, NULL, 'ol');
           return $block;
         }
       }
