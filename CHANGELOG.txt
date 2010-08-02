@@ -9,6 +9,9 @@ by greenSkin: Updated views defaults: removed the page displays in favor of
   hardcoding them within the module.
 by greenSkin: Reverted comments in views-view-fields--series.tpl.php to the 
   original default comments.
+by greenSkin: Added default theme template file for series_nodes view.
+by greenSkin: Renamed view series to series_list so as not to conflict with the 
+  series tag.
 
 
 Series 6.x-x.x, 2010-07-29

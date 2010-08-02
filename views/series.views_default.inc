@@ -9,7 +9,7 @@ function series_views_default_views() {
    * View 'series'
    */
   $view = new view;
-  $view->name = 'series';
+  $view->name = 'series_list';
   $view->description = '';
   $view->tag = 'series';
   $view->view_php = '';
