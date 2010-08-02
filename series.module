@@ -155,9 +155,9 @@ function series_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
           cache_clear_all('series:'. $tid, 'cache_series');
         }
 
-        // $form_state['redirect'] does not work here since the node module forces
-        // a redirect back to the node view page, however the destination query
-        // redirect works so we use that.
+        // $form_state['redirect'] does not work here since the node module
+        // forces a redirect back to the node view page, however the
+        // destination query redirect works so we use that.
         $_REQUEST['destination'] = 'node/'. $node->nid .'/edit/series';
       }
       else if ($former_tid) {
@@ -188,8 +188,14 @@ function series_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
               '#weight' => 1
             );
           }
+
+          if (isset($node->content['series_navigation'])) {
+            // Move navigation below the body which is default at 0 weight.
+            $node->content['series_navigation']['#weight'] = 1;
+          }
         }
       }
+      dpm($node->content);
       break;
   }
 }
