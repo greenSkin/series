@@ -78,7 +78,7 @@ function series_views_default_views() {
       'hide_empty' => 0,
       'empty_zero' => 0,
       'link_to_taxonomy' => 0,
-      'exclude' => 0,
+      'exclude' => 1,
       'id' => 'name',
       'table' => 'term_data',
       'field' => 'name',
@@ -147,20 +147,8 @@ function series_views_default_views() {
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
-  $handler = $view->new_display('page', 'Page', 'page_1');
-  $handler->override_option('path', 'series');
-  $handler->override_option('menu', array(
-    'type' => 'normal',
-    'title' => 'Series',
-    'description' => '',
-    'weight' => '0',
-    'name' => 'navigation',
-  ));
-  $handler->override_option('tab_options', array(
-    'type' => 'none',
-    'title' => '',
-    'description' => '',
-    'weight' => 0,
+  $handler->override_option('style_options', array(
+    'grouping' => '',
   ));
   $views[$view->name] = $view;
 
@@ -254,7 +242,7 @@ function series_views_default_views() {
       'style_options' => array(),
       'wildcard' => 'all',
       'wildcard_substitution' => 'All',
-      'title' => '',
+      'title' => '%1',
       'breadcrumb' => '',
       'default_argument_type' => 'fixed',
       'default_argument' => '',
@@ -294,6 +282,9 @@ function series_views_default_views() {
       'validate_argument_transform' => 0,
       'validate_user_restrict_roles' => 0,
       'validate_argument_php' => '',
+      'override' => array(
+        'button' => 'Override',
+      ),
     ),
   ));
   $handler->override_option('filters', array(
@@ -333,27 +324,12 @@ function series_views_default_views() {
     'type' => 'none',
   ));
   $handler = $view->new_display('page', 'Page', 'page_1');
-  $handler->override_option('path', 'series/%');
+  $handler->override_option('path', 'series2/%');
   $handler->override_option('menu', array(
-    'type' => 'none',
-    'title' => '',
-    'description' => '',
-    'weight' => '0',
-    'name' => 'navigation',
-  ));
-  $handler->override_option('tab_options', array(
     'type' => 'none',
     'title' => '',
     'description' => '',
     'weight' => 0,
-  ));
-  $handler = $view->new_display('page', 'Page', 'page_2');
-  $handler->override_option('path', 'series/%/view');
-  $handler->override_option('menu', array(
-    'type' => 'default tab',
-    'title' => 'View',
-    'description' => '',
-    'weight' => '-10',
     'name' => 'navigation',
   ));
   $handler->override_option('tab_options', array(
