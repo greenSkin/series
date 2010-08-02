@@ -58,7 +58,7 @@ function series_menu() {
     'access arguments' => array(1),
     'type' => MENU_CALLBACK
   );
-  $items['series/%series/view'] = array(
+  $items['series/%/view'] = array(
     'title' => 'View',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' -10
