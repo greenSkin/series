@@ -195,7 +195,6 @@ function series_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
           }
         }
       }
-      dpm($node->content);
       break;
   }
 }
