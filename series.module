@@ -234,8 +234,26 @@ function series_theme() {
     ),
     'series_create_form' => array(
       'arguments' => array('form' => NULL)
+    ),
+    'views_view_fields__series' => array(
+      'arguments' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
+      'template' => 'views-view-fields--series',
+      'original hook' => 'views_view_fields',
+      'preprocess functions' => array(
+        'template_preprocess',
+        'template_preprocess_views_view_fields',
+        'series_preprocess_views_view_fields__series'
+      ),
+      'path' => drupal_get_path('module', 'series') .'/views/theme'
     )
   );
+}
+
+function series_preprocess_views_view_fields__series(&$variables) {
+  drupal_add_css(drupal_get_path('module', 'series') .'/series.css');
+
+  $title = (isset($variables['rows']->term_data_name)) ? $variables['rows']->term_data_name : '';
+  $variables['title'] = check_plain($title);
 }
 
 /**

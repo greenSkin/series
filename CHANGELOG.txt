@@ -4,6 +4,7 @@ Series 6.x-x.x, 2010-08-02
 --------------------------
 by greenSkin: Now hard-setting the view page 'series/%'.
 by greenSkin: Added menu item to 'series' view page.
+by greenSkin: Added default theme template file for series view.
 
 
 Series 6.x-x.x, 2010-07-29
