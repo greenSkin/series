@@ -1,8 +1,8 @@
 <?php
 // $Id$
 /**
- * @file series-view-fields.tpl.php
- * Series view template to all the fields as a row.
+ * @file views-view-fields.tpl.php
+ * Default simple view template to all the fields as a row.
  *
  * - $view: The view in use.
  * - $fields: an array of $field objects. Each one contains:

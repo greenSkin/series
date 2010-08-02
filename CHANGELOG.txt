@@ -7,6 +7,8 @@ by greenSkin: Added menu item to 'series' view page.
 by greenSkin: Added default theme template file for series view.
 by greenSkin: Updated views defaults: removed the page displays in favor of 
   hardcoding them within the module.
+by greenSkin: Reverted comments in views-view-fields--series.tpl.php to the 
+  original default comments.
 
 
 Series 6.x-x.x, 2010-07-29
