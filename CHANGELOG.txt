@@ -4,6 +4,9 @@ Series 6.x-x.x, 2010-08-03
 --------------------------
 by greenSkin: Admin can now edit the series description (term description) via 
   the series edit page.
+by greenSkin: Renamed page title callback functions to reflect the view they go 
+  with. Added series_nodes page title callback function that sets the page title 
+  according to the series name.
 
 
 Series 6.x-x.x, 2010-08-02

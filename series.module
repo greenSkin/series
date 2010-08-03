@@ -46,12 +46,14 @@ function series_menu() {
     'weight' => 1
   );
   $items['series'] = array(
-    'title callback' => 'series_page_title',
+    'title callback' => 'series_list_page_title',
     'page callback' => 'views_page',
     'page arguments' => array('series_list', 'default'),
     'access callback' => 'views_access'
   );
   $items['series/%'] = array(
+    'title callback' => 'series_nodes_page_title',
+    'title arguments' => array(1),
     'page callback' => 'views_page',
     'page arguments' => array('series_nodes', 'default', 1),
     'access callback' => 'views_access',
@@ -302,13 +304,18 @@ function series_views_api() {
   );
 }
 
-function series_page_title() {
+function series_list_page_title() {
   $vid = variable_get('series_vid', 0);
   if ($vid > 0) {
     if ($vocabulary = taxonomy_vocabulary_load($vid)) {
       return $vocabulary->name;
     }
   }
+}
+
+function series_nodes_page_title($tid) {
+  $series = series_load($tid);
+  return $series->name;
 }
 
 function series_access($op, $series, $account = NULL) {
