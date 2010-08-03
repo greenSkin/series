@@ -256,17 +256,6 @@ function series_theme() {
         'series_preprocess_views_view_fields__series_list'
       ),
       'path' => drupal_get_path('module', 'series') .'/views/theme'
-    ),
-    'views_view_fields__series_nodes' => array(
-      'arguments' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
-      'template' => 'views-view-fields--series-nodes',
-      'original hook' => 'views_view_fields',
-      'preprocess functions' => array(
-        'template_preprocess',
-        'template_preprocess_views_view_fields',
-        'series_preprocess_views_view_fields__series_nodes'
-      ),
-      'path' => drupal_get_path('module', 'series') .'/views/theme'
     )
   );
 }
@@ -277,13 +266,6 @@ function series_preprocess_views_view_fields__series_list(&$variables) {
   $variables['series_url'] = url('series/'. $variables['rows']->tid);
 
   $title = (isset($variables['rows']->term_data_name)) ? $variables['rows']->term_data_name : '';
-  $variables['title'] = check_plain($title);
-}
-
-function series_preprocess_views_view_fields__series_nodes(&$variables) {
-  $variables['node_url'] = url('node/'. $variables['rows']->nid);
-
-  $title = (isset($variables['rows']->node_title)) ? $variables['rows']->node_title : '';
   $variables['title'] = check_plain($title);
 }
 

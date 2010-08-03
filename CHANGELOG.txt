@@ -7,6 +7,7 @@ by greenSkin: Admin can now edit the series description (term description) via
 by greenSkin: Renamed page title callback functions to reflect the view they go 
   with. Added series_nodes page title callback function that sets the page title 
   according to the series name.
+by greenSkin: Removed views template file for series_nodes.
 
 
 Series 6.x-x.x, 2010-08-02
