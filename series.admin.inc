@@ -48,6 +48,10 @@ function series_edit_form($form_state, $series) {
     'nodes' => array()
   );
 
+  $form['vid'] = array(
+    '#type' => 'value',
+    '#value' => $series->vid
+  );
   $form['tid'] = array(
     '#type' => 'value',
     '#value' => $series->tid
@@ -66,6 +70,21 @@ function series_edit_form($form_state, $series) {
   }
 
   $form += series_create_form($form_state, $series);
+
+  $form['information'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Information'),
+    '#description' => t('Information pertaining to this series.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => ($series->description) ? TRUE : FALSE
+  );
+  $form['information']['description'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Description'),
+    '#default_value' => $series->description,
+    '#description' => t('A description of the series.')
+  );
+
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
@@ -79,8 +98,12 @@ function series_edit_form_submit($form, &$form_state) {
   foreach ($form_state['values']['nodes'] as $node) {
     db_query("INSERT INTO {series_weight} (tid, nid, weight) VALUES (%d, %d, %d)", $form_state['values']['tid'], $node['nid'], $node['weight']);
   }
+
+  db_query("UPDATE {term_data} SET description = '%s' WHERE tid = %d AND vid = %d", $form_state['values']['information']['description'], $form_state['values']['tid'], $form_state['values']['vid']);
+
   // Clear the cache for this particular series.
   cache_clear_all('series:'. $form_state['values']['tid'], 'cache_series');
+  cache_clear_all();
 }
 
 function series_create_form($form_state, $series) {
@@ -173,5 +196,5 @@ function theme_series_edit_form($form) {
 function theme_series_create_form($form) {
   drupal_add_js(drupal_get_path('module', 'series') .'/js/admin.js');
 
-  return '<div>'. drupal_render($form) .'</div>';
+  return drupal_render($form);
 }

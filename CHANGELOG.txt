@@ -1,5 +1,11 @@
 // $Id: CHANGELOG.txt,v 1.1 2010/07/27 15:20:50 greenskin Exp $
 
+Series 6.x-x.x, 2010-08-03
+--------------------------
+by greenSkin: Admin can now edit the series description (term description) via 
+  the series edit page.
+
+
 Series 6.x-x.x, 2010-08-02
 --------------------------
 by greenSkin: Now hard-setting the view page 'series/%'.
