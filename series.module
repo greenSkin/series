@@ -131,8 +131,12 @@ function series_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
       // Set redirect destination.
       $vid = variable_get('series_vid', 0);
       if (isset($node->taxonomy['tags']) && isset($node->taxonomy['tags'][$vid])) {
-        $term = current(taxonomy_get_term_by_name($node->taxonomy['tags'][$vid]));
-        $tid = $term->tid;
+        $terms = taxonomy_get_term_by_name($node->taxonomy['tags'][$vid]);
+        foreach ($terms as $term) {
+          if ($term->vid == $vid) {
+            $tid = $term->tid;
+          }
+        }
       }
       else if (isset($node->taxonomy[$vid])) {
         $tid = $node->taxonomy[$vid];
@@ -145,12 +149,6 @@ function series_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         if ($tid != $former_tid) {
           // Delete the node weight for the former series.
           db_query("DELETE FROM {series_weight} WHERE nid = %d", $node->nid);
-
-          // Set a default weight for the node in the new series. Put the node
-          // at the end of the series. To do that we use the count of nodes in
-          // the series as the weight for this node.
-          $series = series_load($tid);
-          db_query("INSERT INTO {series_weight} (tid, nid, weight) VALUES (%d, %d, %d)", $tid, $node->nid, count($series->nodes));
 
           // Clear the caches for both series.
           cache_clear_all('series:'. $former_tid, 'cache_series');
@@ -381,6 +379,12 @@ function series_load($param) {
         $term_series->nodes = array();
         $result = series_select_nodes($tid);
         while ($data = db_fetch_array($result)) {
+          if (!is_numeric($data['weight'])) {
+            // The node hasn't yet been given a set weight so we give it a temp
+            // weight that equals the number of nodes currently in the series
+            // object.
+            $data['weight'] = count($term_series->nodes);
+          }
           $term_series->nodes[$data['nid']] = $data;
         }
 
@@ -426,7 +430,7 @@ function series_navigation_links($series, $node) {
 }
 
 function series_select_nodes($tid) {
-  $sql = 'SELECT DISTINCT(n.nid), n.sticky, n.title, n.created, n.type, sw.weight FROM {node} n INNER JOIN {term_node} tn ON n.vid = tn.vid INNER JOIN {series_weight} sw ON n.nid = sw.nid AND tn.tid = sw.tid WHERE tn.tid = %d ORDER BY sw.weight, n.title';
+  $sql = 'SELECT DISTINCT(n.nid), n.sticky, n.title, n.created, n.type, sw.weight FROM {node} n INNER JOIN {term_node} tn ON n.vid = tn.vid LEFT JOIN {series_weight} sw ON n.nid = sw.nid AND tn.tid = sw.tid WHERE tn.tid = %d ORDER BY sw.weight, n.title';
   $sql = db_rewrite_sql($sql);
   return db_query($sql, array($tid));
 }

@@ -7,6 +7,10 @@ by greenSkin: Updated series_nodes default to add attachment display showing
 by greenSkin: Updated README.txt to better explain the module.
 by greenSkin: Implemented our own form of taxonomy_select_nodes in order to
   grab all nodes tied to the series, not just the ones that are published.
+by greenSkin: When looking for the term data based on a string, don't settle
+  for the first term, loop through the terms returned looking for the one
+  associated to the series vocabulary. The query for selecting a series nodes
+  now LEFT JOINs {series_weight} rather than INNER JOIN.
 
 
 Series 6.x-x.x, 2010-08-03
