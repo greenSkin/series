@@ -84,19 +84,19 @@ function series_edit_form($form_state, $series) {
     '#value' => l($series->name, 'series/'. $series->tid),
   );
   if (user_access('administer taxonomy')) $form['information']['series_title']['#value'] .= ' ('. l('edit', 'admin/content/taxonomy/edit/term/'. $series->tid, array('query' => drupal_get_destination())) .')';
-  
   $form['information']['description'] = array(
     '#type' => 'textarea',
     '#title' => t('Description'),
     '#default_value' => $series->description,
     '#description' => t('A description of the series. This will appear on the series overview page.')
   );
-  
+
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
     '#submit' => array('series_edit_form_submit')
   );
+
   return $form;
 }
 
