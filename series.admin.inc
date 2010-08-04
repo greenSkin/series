@@ -204,5 +204,5 @@ function theme_series_edit_form($form) {
 function theme_series_create_form($form) {
   drupal_add_js(drupal_get_path('module', 'series') .'/js/admin.js');
 
-  return drupal_render($form);
+  return '<div class="action">'. drupal_render($form) .'</div>';
 }
