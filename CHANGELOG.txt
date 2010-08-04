@@ -2,17 +2,18 @@
 
 Series 6.x-x.x, 2010-08-04
 --------------------------
-by greenSkin: Updated series_nodes default to add attachment display showing the 
-  description of the series (term).
+by greenSkin: Updated series_nodes default to add attachment display showing
+  the description of the series (term).
+by greenSkin: Updated README.txt to better explain the module.
 
 
 Series 6.x-x.x, 2010-08-03
 --------------------------
-by greenSkin: Admin can now edit the series description (term description) via 
+by greenSkin: Admin can now edit the series description (term description) via
   the series edit page.
-by greenSkin: Renamed page title callback functions to reflect the view they go 
-  with. Added series_nodes page title callback function that sets the page title 
-  according to the series name.
+by greenSkin: Renamed page title callback functions to reflect the view they go
+  with. Added series_nodes page title callback function that sets the page
+  title according to the series name.
 by greenSkin: Removed views template file for series_nodes.
 
 
@@ -21,55 +22,56 @@ Series 6.x-x.x, 2010-08-02
 by greenSkin: Now hard-setting the view page 'series/%'.
 by greenSkin: Added menu item to 'series' view page.
 by greenSkin: Added default theme template file for series view.
-by greenSkin: Updated views defaults: removed the page displays in favor of 
+by greenSkin: Updated views defaults: removed the page displays in favor of
   hardcoding them within the module.
-by greenSkin: Reverted comments in views-view-fields--series.tpl.php to the 
+by greenSkin: Reverted comments in views-view-fields--series.tpl.php to the
   original default comments.
 by greenSkin: Added default theme template file for series_nodes view.
-by greenSkin: Renamed view series to series_list so as not to conflict with the 
+by greenSkin: Renamed view series to series_list so as not to conflict with the
   series tag.
-by greenSkin: Added nid field to series_nodes view and hid the title field. 
+by greenSkin: Added nid field to series_nodes view and hid the title field.
   Updated the default views.
-by greenSkin: Fixed page 'series' to use series_list view. Added title callback 
+by greenSkin: Fixed page 'series' to use series_list view. Added title callback
   as well.
-by greenSkin: Finished series block that lists other nodes in the active series.
-by greenSkin: Added a weight of 1 to $node->content['series_navigation'] so it 
+by greenSkin: Finished series block that lists other nodes in the active
+  series.
+by greenSkin: Added a weight of 1 to $node->content['series_navigation'] so it
   falls below the node body which defaults to a weight of 0.
 
 
 Series 6.x-x.x, 2010-07-29
 --------------------------
-by greenSkin: Set a default weight to nodes in a series when they are first 
-  added to that series. Clean out the weight for a node in a series when it is 
-  no longer tied to that series. Clear the caches for series a node was formerly 
-  tied to and newly tied to.
-by greenSkin: Instead of giving a default weight of 0 to nodes newly added to a 
-  series, we give a weight that equals the count of nodes already in the series. 
-  This ensures the node initially is added to the end of the series since 
-  weights start at -10 (gives a buffer of 10).
+by greenSkin: Set a default weight to nodes in a series when they are first
+  added to that series. Clean out the weight for a node in a series when it is
+  no longer tied to that series. Clear the caches for series a node was
+  formerly tied to and newly tied to.
+by greenSkin: Instead of giving a default weight of 0 to nodes newly added to a
+  series, we give a weight that equals the count of nodes already in the
+  series. This ensures the node initially is added to the end of the series
+  since weights start at -10 (gives a buffer of 10).
 by greenSkin: Initial implementation of hook_block() to show series navigation.
 by greenSkin: Initial work begun on embedding views to 'series/%'.
 
 
 Series 6.x-x.x, 2010-07-28
 --------------------------
-by greenSkin: Fixed 'Add another' button to validate and redirect correctly when 
-  only one content type is used for the series vocabulary.
-by greenSkin: Added series edit menu item '/series/%series/edit'. Added 
+by greenSkin: Fixed 'Add another' button to validate and redirect correctly
+  when only one content type is used for the series vocabulary.
+by greenSkin: Added series edit menu item '/series/%series/edit'. Added
   series_access function.
-by greenSkin: Added a wrapper function for the node series edit page callback to 
-  use the series_edit_form and pass it the series object instead of the node 
+by greenSkin: Added a wrapper function for the node series edit page callback
+  to use the series_edit_form and pass it the series object instead of the node
   object.
-by greenSkin: Set #theme on series_edit_form so series_node_edit_form utilizes 
-  the same theme callback. Redirecting to series edit page now works when 
-  creating new nodes in a series. Instead of using a submit function to perform 
-  the redirection, we perform the operation in hook_nodeapi with ops insert and 
-  update. The $form_state['values'] on submission of a newly created node has 
-  not yet been given a nid so we couldn't redirect to the node's series edit 
+by greenSkin: Set #theme on series_edit_form so series_node_edit_form utilizes
+  the same theme callback. Redirecting to series edit page now works when
+  creating new nodes in a series. Instead of using a submit function to perform
+  the redirection, we perform the operation in hook_nodeapi with ops insert and
+  update. The $form_state['values'] on submission of a newly created node has
+  not yet been given a nid so we couldn't redirect to the node's series edit
   page, by using the hook_nodeapi we can.
 by greenSkin: Added Views default for series page, lists the available series'.
 by greenSkin: Added default view for listing nodes in a series.
-by greenSkin: Exposed {series_weight}.weight to Views. Added 
+by greenSkin: Exposed {series_weight}.weight to Views. Added
   series_handler_filter_series_node_weight handler.
-by greenSkin: Updated series_nodes default to incorporate the weight sort and 
+by greenSkin: Updated series_nodes default to incorporate the weight sort and
   filter.
