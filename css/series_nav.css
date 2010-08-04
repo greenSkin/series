@@ -1,0 +1,20 @@
+/* @override http://positivechoices/sites/default/modules/series/css/series_nav.css?t */
+
+.series_navigation {
+  border: 1px solid #d5d5d5;
+  margin-bottom: 1em;
+  padding: .5em;
+}
+
+.series_navigation .next {
+	float: right;
+}
+
+.series_navigation .previous {
+	float: left;
+}
+
+.series_navigation h4 {
+  text-align: center;
+  margin: 0;
+}
