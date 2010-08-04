@@ -7,6 +7,8 @@ by greenSkin: Updated series_nodes default to add attachment display showing
 by greenSkin: Updated README.txt to better explain the module.
 by greenSkin: Implemented our own form of taxonomy_select_nodes in order to
   grab all nodes tied to the series, not just the ones that are published.
+by designerbrent: Added Series title, link and edit link to the information
+  fieldset.
 by greenSkin: When looking for the term data based on a string, don't settle
   for the first term, loop through the terms returned looking for the one
   associated to the series vocabulary. The query for selecting a series nodes
