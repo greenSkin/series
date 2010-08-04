@@ -49,15 +49,16 @@ function series_menu() {
     'title callback' => 'series_list_page_title',
     'page callback' => 'views_page',
     'page arguments' => array('series_list', 'default'),
-    'access callback' => 'views_access'
+    'access callback' => 'series_views_access',
+    'access arguments' => array('series_list', 'default')
   );
   $items['series/%'] = array(
     'title callback' => 'series_nodes_page_title',
     'title arguments' => array(1),
     'page callback' => 'views_page',
     'page arguments' => array('series_nodes', 'default', 1),
-    'access callback' => 'views_access',
-    'access arguments' => array(1),
+    'access callback' => 'series_views_access',
+    'access arguments' => array('series_list', 'default'),
     'type' => MENU_CALLBACK
   );
   $items['series/%/view'] = array(
@@ -332,6 +333,14 @@ function series_access($op, $series, $account = NULL) {
       }
 
       return $update[$series->tid][$account->uid];
+  }
+}
+
+function series_views_access($name, $display_id) {
+  if ($view = views_get_view($name)) {
+    $view->init_display();
+    $args = $view->display[$display_id]->handler->get_access_plugin()->get_access_callback();
+    return call_user_func_array('views_access', $args);
   }
 }
 

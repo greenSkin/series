@@ -13,6 +13,7 @@ by greenSkin: When looking for the term data based on a string, don't settle
   for the first term, loop through the terms returned looking for the one
   associated to the series vocabulary. The query for selecting a series nodes
   now LEFT JOINs {series_weight} rather than INNER JOIN.
+by greenSkin: Better use of views_access for our defined views pages.
 
 
 Series 6.x-x.x, 2010-08-03
