@@ -353,6 +353,67 @@ function series_views_default_views() {
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
+  $handler->override_option('title', 'Series');
+  $handler->override_option('style_options', array(
+    'grouping' => '',
+  ));
+  $handler->override_option('row_plugin', 'node');
+  $handler->override_option('row_options', array(
+    'relationship' => 'none',
+    'build_mode' => 'teaser',
+    'links' => 1,
+    'comments' => 0,
+  ));
+  $handler = $view->new_display('attachment', 'Attachment', 'attachment_1');
+  $handler->override_option('fields', array(
+    'description' => array(
+      'label' => '',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'link_class' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'strip_tags' => 0,
+        'html' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'exclude' => 0,
+      'id' => 'description',
+      'table' => 'term_data',
+      'field' => 'description',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+  ));
+  $handler->override_option('items_per_page', 1);
+  $handler->override_option('row_plugin', 'fields');
+  $handler->override_option('row_options', array(
+    'inline' => array(),
+    'separator' => '',
+    'hide_empty' => 0,
+  ));
+  $handler->override_option('attachment_position', 'before');
+  $handler->override_option('inherit_arguments', 1);
+  $handler->override_option('inherit_exposed_filters', FALSE);
+  $handler->override_option('inherit_pager', FALSE);
+  $handler->override_option('render_pager', 0);
+  $handler->override_option('displays', array(
+    'default' => 'default',
+  ));
   $views[$view->name] = $view;
 
   return $views;
