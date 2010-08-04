@@ -41,6 +41,7 @@ function series_node_edit_form($form_state, $node) {
 }
 
 function series_edit_form($form_state, $series) {
+
   $form = array(
     '#theme' => 'series_edit_form',
     '#tree' => TRUE,
@@ -74,17 +75,23 @@ function series_edit_form($form_state, $series) {
   $form['information'] = array(
     '#type' => 'fieldset',
     '#title' => t('Information'),
-    '#description' => t('Information pertaining to this series.'),
     '#collapsible' => TRUE,
     '#collapsed' => ($series->description) ? TRUE : FALSE
   );
+  $form['information']['series_title'] = array(
+    '#type' => 'item',
+    '#title' => 'Series Title',
+    '#value' => l($series->name, 'series/'. $series->tid),
+  );
+  if (user_access('administer taxonomy')) $form['information']['series_title']['#value'] .= ' ('. l('edit', 'admin/content/taxonomy/edit/term/'. $series->tid, array('query' => drupal_get_destination())) .')';
+  
   $form['information']['description'] = array(
     '#type' => 'textarea',
     '#title' => t('Description'),
     '#default_value' => $series->description,
-    '#description' => t('A description of the series.')
+    '#description' => t('A description of the series. This will appear on the series overview page.')
   );
-
+  
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
@@ -188,7 +195,8 @@ function theme_series_edit_form($form) {
     );
   }
 
-  $output = theme('table', $headers, $rows, array('id' => 'series-nodes'));
+  $output = drupal_render($form['information']);
+  $output .= theme('table', $headers, $rows, array('id' => 'series-nodes'));
   $output .= drupal_render($form);
   return $output;
 }
