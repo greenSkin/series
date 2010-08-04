@@ -379,18 +379,10 @@ function series_load($param) {
       if (!empty($term_series)) {
         // Build array of nodes tied to this series.
         $term_series->nodes = array();
-        $result = taxonomy_select_nodes(array($tid));
+        $result = series_select_nodes($tid);
         while ($data = db_fetch_array($result)) {
-          // Specify the node's type.
-          $data['type'] = db_result(db_query("SELECT type FROM {node} WHERE nid = %d", $data['nid']));
-
-          // Get the weight of the node in the series.
-          $data['weight'] = (int)db_result(db_query("SELECT weight FROM {series_weight} WHERE tid = %d AND nid = %d", $tid, $data['nid']));
-
           $term_series->nodes[$data['nid']] = $data;
         }
-        // Sort the nodes.
-        uasort($term_series->nodes, 'series_sort');
 
         // Save to cache.
         cache_set('series:'. $tid, $term_series, 'cache_series');
@@ -433,14 +425,10 @@ function series_navigation_links($series, $node) {
   return array($prev, $next);
 }
 
-/**
- * Helper function to sort nodes within a series.
- */
-function series_sort($a, $b) {
-  if ($a['weight'] == $b['weight']) {
-    return 0;
-  }
-  return ($a['weight'] < $b['weight']) ? -1 : 1;
+function series_select_nodes($tid) {
+  $sql = 'SELECT DISTINCT(n.nid), n.sticky, n.title, n.created, n.type, sw.weight FROM {node} n INNER JOIN {term_node} tn ON n.vid = tn.vid INNER JOIN {series_weight} sw ON n.nid = sw.nid AND tn.tid = sw.tid WHERE tn.tid = %d ORDER BY sw.weight, n.title';
+  $sql = db_rewrite_sql($sql);
+  return db_query($sql, array($tid));
 }
 
 function _series_load_node_series($node) {

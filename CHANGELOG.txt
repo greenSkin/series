@@ -5,6 +5,8 @@ Series 6.x-x.x, 2010-08-04
 by greenSkin: Updated series_nodes default to add attachment display showing
   the description of the series (term).
 by greenSkin: Updated README.txt to better explain the module.
+by greenSkin: Implemented our own form of taxonomy_select_nodes in order to
+  grab all nodes tied to the series, not just the ones that are published.
 
 
 Series 6.x-x.x, 2010-08-03
