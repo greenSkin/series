@@ -14,6 +14,8 @@ by greenSkin: When looking for the term data based on a string, don't settle
   associated to the series vocabulary. The query for selecting a series nodes
   now LEFT JOINs {series_weight} rather than INNER JOIN.
 by greenSkin: Better use of views_access for our defined views pages.
+by greenSkin: Updated views defaults to not specify a vocabulary and to use the
+  full pager by default.
 
 
 Series 6.x-x.x, 2010-08-03

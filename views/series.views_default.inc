@@ -126,9 +126,7 @@ function series_views_default_views() {
   $handler->override_option('filters', array(
     'vid' => array(
       'operator' => 'in',
-      'value' => array(
-        '2' => '2',
-      ),
+      'value' => array(),
       'group' => '0',
       'exposed' => FALSE,
       'expose' => array(
@@ -147,6 +145,7 @@ function series_views_default_views() {
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
+  $handler->override_option('use_pager', '1');
   $handler->override_option('style_options', array(
     'grouping' => '',
   ));
@@ -306,7 +305,7 @@ function series_views_default_views() {
       'validate_argument_node_access' => 0,
       'validate_argument_nid_type' => 'nid',
       'validate_argument_vocabulary' => array(
-        '2' => 2,
+        '2' => 0,
       ),
       'validate_argument_type' => 'tid',
       'validate_argument_transform' => 0,
@@ -354,6 +353,7 @@ function series_views_default_views() {
     'type' => 'none',
   ));
   $handler->override_option('title', 'Series');
+  $handler->override_option('use_pager', '1');
   $handler->override_option('style_options', array(
     'grouping' => '',
   ));
@@ -400,6 +400,7 @@ function series_views_default_views() {
     ),
   ));
   $handler->override_option('items_per_page', 1);
+  $handler->override_option('use_pager', FALSE);
   $handler->override_option('row_plugin', 'fields');
   $handler->override_option('row_options', array(
     'inline' => array(),
