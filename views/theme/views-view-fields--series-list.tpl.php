@@ -20,7 +20,7 @@
  */
 ?>
 <div class="series">
-  
+
   <h2><a href="<?php print $series_url; ?>" title="<?php print $title; ?>"><?php print $title; ?></a></h2>
 
   <?php foreach ($fields as $id => $field): ?>

@@ -18,6 +18,7 @@ by greenSkin: Updated views defaults to not specify a vocabulary and to use the
   full pager by default.
 by designerbrent: Adding theme functions to the series navigation files.
 
+
 Series 6.x-x.x, 2010-08-03
 --------------------------
 by greenSkin: Admin can now edit the series description (term description) via

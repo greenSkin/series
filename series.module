@@ -176,15 +176,13 @@ function series_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         if ($series = series_load($node)) {
           list($prev, $next) = series_navigation_links($series, $node);
 
-dpm($series);
-
           if ($series->name) {
             $node->content['series_navigation']['title'] = array(
               '#value' => theme('series_navigation_title', $series->name, $series->tid),
-              '#weight' => -2, 
+              '#weight' => -2
             );
           }
-          
+
           if ($prev) {
             $node->content['series_navigation']['previous'] = array(
               '#value' => theme('series_navigation_previous', $prev['nid']),
@@ -202,11 +200,10 @@ dpm($series);
           if (isset($node->content['series_navigation'])) {
             // Move navigation below the body which is default at 0 weight.
             $node->content['series_navigation']['#weight'] = 1;
-            
+
+            // Theme the series navigation.
             $node->content['series_navigation']['#theme'] = 'series_navigation';
-            
           }
-          
         }
       }
       break;
@@ -270,17 +267,17 @@ function series_theme() {
       'path' => drupal_get_path('module', 'series') .'/views/theme'
     ),
     'series_navigation' => array(
-      'arguments' => array('element' => NULL),
-    ),
-    'series_navigation_next' => array(
-      'arguments' => array('nid' => NULL),
-    ),
-    'series_navigation_previous' => array(
-      'arguments' => array('nid' => NULL),
+      'arguments' => array('element' => NULL)
     ),
     'series_navigation_title' => array(
-      'arguments' => array('name' => NULL, 'tid' => NULL),
+      'arguments' => array('name' => NULL, 'tid' => NULL)
     ),
+    'series_navigation_next' => array(
+      'arguments' => array('nid' => NULL)
+    ),
+    'series_navigation_previous' => array(
+      'arguments' => array('nid' => NULL)
+    )
   );
 }
 
@@ -490,21 +487,19 @@ function _series_load_node_series($node) {
 
 function theme_series_navigation($element) {
   drupal_add_css(drupal_get_path('module','series') .'/css/series_nav.css');
-  
-  $output = '';
-  $output .= '<div class="series_navigation">';
+
+  $output = '<div class="series_navigation">';
   $output .= '<div class="previous">'. drupal_render($element['previous']) .'</div>';
   $output .= '<div class="next">'. drupal_render($element['next']) .'</div>';
-  $output .= drupal_render($element['title']);
-  $output .= '</div>';
-
   $output .= drupal_render($element);
-  
+  $output .= '</div>';
   return $output;
 }
+
 function theme_series_navigation_title($name, $tid) {
   return '<h4 class="series_title">'. l($name, 'series/'. $tid, array('attributes' => array('title'=>'View the entire series: '. $name))) .'</h4>';
 }
+
 function theme_series_navigation_next($nid) {
   return l(t('Next'), 'node/'. $nid);
 }
@@ -512,6 +507,3 @@ function theme_series_navigation_next($nid) {
 function theme_series_navigation_previous($nid) {
   return l(t('Previous'), 'node/'. $nid);
 }
-
-
-
