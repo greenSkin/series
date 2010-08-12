@@ -174,6 +174,12 @@ function series_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
       // nodes in this nodes series.
       if ($a3 == FALSE) {
         if ($series = series_load($node)) {
+          // Series information
+          $node->content['series_information'] = array(
+            '#value' => theme('series_information', $series, $node)
+          );
+
+          // Next & previous links
           list($prev, $next) = series_navigation_links($series, $node);
 
           if ($series->name) {
@@ -184,17 +190,23 @@ function series_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
           }
 
           if ($prev) {
-            $node->content['series_navigation']['previous'] = array(
-              '#value' => theme('series_navigation_previous', $prev['nid']),
-              '#weight' => -1
-            );
+            $prev_node = node_load($prev['nid']);
+            if (node_access('view', $prev_node)) {
+              $node->content['series_navigation']['previous'] = array(
+                '#value' => theme('series_navigation_previous', $prev['nid']),
+                '#weight' => -1
+              );
+            }
           }
 
           if ($next) {
-            $node->content['series_navigation']['next'] = array(
-              '#value' => theme('series_navigation_next', $next['nid']),
-              '#weight' => 1
-            );
+            $next_node = node_load($next['nid']);
+            if (node_access('view', $next_node)) {
+              $node->content['series_navigation']['next'] = array(
+                '#value' => theme('series_navigation_next', $next['nid']),
+                '#weight' => 1
+              );
+            }
           }
 
           if (isset($node->content['series_navigation'])) {
@@ -268,6 +280,9 @@ function series_theme() {
     ),
     'series_navigation' => array(
       'arguments' => array('element' => NULL)
+    ),
+    'series_information' => array(
+      'arguments' => array('series' => NULL, 'node' => NULL)
     ),
     'series_navigation_title' => array(
       'arguments' => array('name' => NULL, 'tid' => NULL)
@@ -494,6 +509,18 @@ function theme_series_navigation($element) {
   $output .= drupal_render($element);
   $output .= '</div>';
   return $output;
+}
+
+function theme_series_information($series, $node) {
+  $total = count($series->nodes);
+
+  $number = 1;
+  foreach ($series->nodes as $value) {
+    if ($value['nid'] == $node->nid) break;
+    $number++;
+  }
+
+  return t('@number of @total', array('@number' => $number, '@total' => $total));
 }
 
 function theme_series_navigation_title($name, $tid) {
