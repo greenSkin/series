@@ -6,6 +6,7 @@ by greenSkin: Restructured the series array inside of $node->content. Title is
   now found in $node->content['series']['information'].
 by greenSkin: Added a theme function to wrap all the series content for the
   node view.
+by greenSkin: Added weight of 1 to the series content.
 
 
 Series 6.x-x.x, 2010-08-12

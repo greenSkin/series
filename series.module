@@ -174,7 +174,10 @@ function series_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
       // nodes in this nodes series.
       if ($a3 == FALSE) {
         if ($series = series_load($node)) {
-          $node->content['series']['#theme'] = 'series_content';
+          $node->content['series'] = array(
+            '#theme' => 'series_content',
+            '#weight' => 1
+          );
 
           // Determine the current placing of the node in the series.
           $current = 1;
@@ -218,9 +221,6 @@ function series_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
           }
 
           if (isset($node->content['series']['navigation'])) {
-            // Move navigation below the body default weight of 0.
-            $node->content['series']['navigation']['#weight'] = 1;
-
             // Theme the series navigation.
             $node->content['series']['navigation']['#theme'] = 'series_navigation';
           }
