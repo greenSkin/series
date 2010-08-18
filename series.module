@@ -174,6 +174,8 @@ function series_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
       // nodes in this nodes series.
       if ($a3 == FALSE) {
         if ($series = series_load($node)) {
+          $node->content['series']['#theme'] = 'series_content';
+
           // Determine the current placing of the node in the series.
           $current = 1;
           foreach ($series->nodes as $value) {
@@ -283,6 +285,9 @@ function series_theme() {
         'series_preprocess_views_view_fields__series_list'
       ),
       'path' => drupal_get_path('module', 'series') .'/views/theme'
+    ),
+    'series_content' => array(
+      'arguments' => array('element' => NULL)
     ),
     'series_information_title' => array(
       'arguments' => array('series' => NULL)
@@ -501,6 +506,15 @@ function _series_load_node_series($node) {
       }
     }
   }
+}
+
+function theme_series_content($element) {
+  $output = drupal_render($element['information']);
+  if (isset($element['navigation'])) {
+    $output .= drupal_render($element['navigation']);
+  }
+  $output .= drupal_render($element);
+  return $output;
 }
 
 function theme_series_information_title($series) {
