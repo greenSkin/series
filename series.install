@@ -50,7 +50,7 @@ function series_install() {
   }
   else { // If none, create one.
     db_query("INSERT INTO {vocabulary} (name, description, help, relations, hierarchy, multiple, required, tags, module, weight)
-      VALUES ('%s', '%s', '%s', 1, 0, 0, 1, 0, 'series', 0)", $t('Series'), $t('A Series of nodes.'), $t('Select a series that this node will be tied to.'));
+      VALUES ('%s', '%s', '%s', 1, 0, 0, 0, 1, 'series', 0)", $t('Series'), $t('A Series of nodes.'), $t('Select a series that this node will be tied to.'));
     $vid = db_last_insert_id('vocabulary', 'vid');
   }
 

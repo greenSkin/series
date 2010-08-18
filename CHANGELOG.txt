@@ -7,6 +7,8 @@ by greenSkin: Restructured the series array inside of $node->content. Title is
 by greenSkin: Added a theme function to wrap all the series content for the
   node view.
 by greenSkin: Added weight of 1 to the series content.
+by greenSkin: Set default "Series" vocabulary to "Tags" and not "Required".
+  http://projects.positivechoices.com/pc/node/197
 
 
 Series 6.x-x.x, 2010-08-12
