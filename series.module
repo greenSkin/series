@@ -174,47 +174,53 @@ function series_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
       // nodes in this nodes series.
       if ($a3 == FALSE) {
         if ($series = series_load($node)) {
-          // Series information
-          $node->content['series_information'] = array(
-            '#value' => theme('series_information', $series, $node)
-          );
-
-          // Next & previous links
-          list($prev, $next) = series_navigation_links($series, $node);
-
-          if ($series->name) {
-            $node->content['series_navigation']['title'] = array(
-              '#value' => theme('series_navigation_title', $series->name, $series->tid),
-              '#weight' => -2
-            );
+          // Determine the current placing of the node in the series.
+          $current = 1;
+          foreach ($series->nodes as $value) {
+            if ($value['nid'] == $node->nid) break;
+            $current++;
           }
 
+          // Series information
+          $node->content['series']['information'] = array(
+            'title' => array(
+              '#value' => theme('series_title', $series)
+            ),
+            'current' => array(
+              '#value' => $current
+            ),
+            'total' => array(
+              '#value' => count($series->nodes)
+            )
+          );
+
+          // Series navigation
+          list($prev, $next) = series_navigation_links($series, $node);
           if ($prev) {
             $prev_node = node_load($prev['nid']);
             if (node_access('view', $prev_node)) {
-              $node->content['series_navigation']['previous'] = array(
+              $node->content['series']['navigation']['previous'] = array(
                 '#value' => theme('series_navigation_previous', $prev['nid']),
                 '#weight' => -1
               );
             }
           }
-
           if ($next) {
             $next_node = node_load($next['nid']);
             if (node_access('view', $next_node)) {
-              $node->content['series_navigation']['next'] = array(
+              $node->content['series']['navigation']['next'] = array(
                 '#value' => theme('series_navigation_next', $next['nid']),
                 '#weight' => 1
               );
             }
           }
 
-          if (isset($node->content['series_navigation'])) {
-            // Move navigation below the body which is default at 0 weight.
-            $node->content['series_navigation']['#weight'] = 1;
+          if (isset($node->content['series']['navigation'])) {
+            // Move navigation below the body default weight of 0.
+            $node->content['series']['navigation']['#weight'] = 1;
 
             // Theme the series navigation.
-            $node->content['series_navigation']['#theme'] = 'series_navigation';
+            $node->content['series']['navigation']['#theme'] = 'series_navigation';
           }
         }
       }
@@ -278,14 +284,11 @@ function series_theme() {
       ),
       'path' => drupal_get_path('module', 'series') .'/views/theme'
     ),
+    'series_information_title' => array(
+      'arguments' => array('series' => NULL)
+    ),
     'series_navigation' => array(
       'arguments' => array('element' => NULL)
-    ),
-    'series_information' => array(
-      'arguments' => array('series' => NULL, 'node' => NULL)
-    ),
-    'series_navigation_title' => array(
-      'arguments' => array('name' => NULL, 'tid' => NULL)
     ),
     'series_navigation_next' => array(
       'arguments' => array('nid' => NULL)
@@ -500,6 +503,10 @@ function _series_load_node_series($node) {
   }
 }
 
+function theme_series_information_title($series) {
+  return '<h4 class="series_title">'. l($series->name, 'series/'. $series->tid, array('attributes' => array('title' => t('View the entire series: %name', array('%name' => $series->name))))) .'</h4>';
+}
+
 function theme_series_navigation($element) {
   drupal_add_css(drupal_get_path('module','series') .'/css/series_nav.css');
 
@@ -509,22 +516,6 @@ function theme_series_navigation($element) {
   $output .= drupal_render($element);
   $output .= '</div>';
   return $output;
-}
-
-function theme_series_information($series, $node) {
-  $total = count($series->nodes);
-
-  $number = 1;
-  foreach ($series->nodes as $value) {
-    if ($value['nid'] == $node->nid) break;
-    $number++;
-  }
-
-  return t('@number of @total', array('@number' => $number, '@total' => $total));
-}
-
-function theme_series_navigation_title($name, $tid) {
-  return '<h4 class="series_title">'. l($name, 'series/'. $tid, array('attributes' => array('title'=>'View the entire series: '. $name))) .'</h4>';
 }
 
 function theme_series_navigation_next($nid) {
