@@ -75,7 +75,7 @@ function series_edit_form($form_state, $series) {
   $form['information'] = array(
     '#type' => 'fieldset',
     '#title' => t('Information'),
-    '#description' => l(t('Edit vocabulary.'), 'admin/content/taxonomy/edit/vocabulary/' . $series->vid),
+    '#description' => l(t('Edit vocabulary'), 'admin/content/taxonomy/edit/vocabulary/' . $series->vid),
     '#collapsible' => TRUE,
     '#collapsed' => ($series->description) ? TRUE : FALSE
   );
