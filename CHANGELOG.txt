@@ -1,5 +1,11 @@
 // $Id: CHANGELOG.txt,v 1.1 2010/07/27 15:20:50 greenskin Exp $
 
+Series 6.x-x.x, 2010-08-19
+--------------------------
+by greenSkin: Added a link to edit the series vocabulary on the series edit
+  page. http://projects.positivechoices.com/pc/node/196
+
+
 Series 6.x-x.x, 2010-08-18
 --------------------------
 by greenSkin: Restructured the series array inside of $node->content. Title is
