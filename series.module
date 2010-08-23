@@ -115,7 +115,7 @@ function series_form_alter(&$form, &$form_state, $form_id) {
  */
 function series_form_taxonomy_form_vocabulary_alter(&$form, &$form_state) {
   if ($form['vid']['#value'] == variable_get('series_vid', 0)) {
-    $form['settings']['#description'] = t('This vocabulary is chosen as the !link, and as such the multiple select field have been disabled.', array('!link' => l(t('Lesson Series vocabulary'), 'admin/settings/lesson/series')));
+    $form['settings']['#description'] = t('This vocabulary is chosen as the !link, and as such the multiple select field have been disabled.', array('!link' => l(t('Series vocabulary'), 'admin/settings/series')));
     $form['settings']['multiple']['#type'] = 'hidden';
     $form['settings']['multiple']['#value'] = 0;
     $form['#submit'][] = 'series_taxonomy_form_vocabulary_submit';
