@@ -1,5 +1,35 @@
 // $Id: CHANGELOG.txt,v 1.1 2010/07/27 15:20:50 greenskin Exp $
 
+Series 6.x-x.x, 2010-08-23
+--------------------------
+by greenSkin: Fixed text referencing Lesson Series rather than simply Series.
+
+
+Series 6.x-x.x, 2010-08-19
+--------------------------
+by greenSkin: Added a link to edit the series vocabulary on the series edit
+  page. http://projects.positivechoices.com/pc/node/196
+
+
+Series 6.x-x.x, 2010-08-18
+--------------------------
+by greenSkin: Restructured the series array inside of $node->content. Title is
+  now found in $node->content['series']['information'].
+by greenSkin: Added a theme function to wrap all the series content for the
+  node view.
+by greenSkin: Added weight of 1 to the series content.
+by greenSkin: Set default "Series" vocabulary to "Tags" and not "Required".
+  http://projects.positivechoices.com/pc/node/197
+
+
+Series 6.x-x.x, 2010-08-12
+--------------------------
+by greenSkin: Added check on access to view a previous or next node before
+  providing the link output. Added a series information output that shows the
+  numbered position of the currently viewed node out of the total number in the
+  series.
+
+
 Series 6.x-x.x, 2010-08-04
 --------------------------
 by greenSkin: Updated series_nodes default to add attachment display showing

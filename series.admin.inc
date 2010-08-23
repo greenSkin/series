@@ -75,15 +75,17 @@ function series_edit_form($form_state, $series) {
   $form['information'] = array(
     '#type' => 'fieldset',
     '#title' => t('Information'),
+    '#description' => l(t('Edit vocabulary'), 'admin/content/taxonomy/edit/vocabulary/' . $series->vid),
     '#collapsible' => TRUE,
     '#collapsed' => ($series->description) ? TRUE : FALSE
   );
-  $form['information']['series_title'] = array(
+  $title_value = l($series->name, 'series/'. $series->tid);
+  if (user_access('administer taxonomy')) $title_value .= ' ('. l('edit', 'admin/content/taxonomy/edit/term/'. $series->tid, array('query' => drupal_get_destination())) .')';
+  $form['information']['title'] = array(
     '#type' => 'item',
     '#title' => 'Series Title',
-    '#value' => l($series->name, 'series/'. $series->tid),
+    '#value' => $title_value
   );
-  if (user_access('administer taxonomy')) $form['information']['series_title']['#value'] .= ' ('. l('edit', 'admin/content/taxonomy/edit/term/'. $series->tid, array('query' => drupal_get_destination())) .')';
   $form['information']['description'] = array(
     '#type' => 'textarea',
     '#title' => t('Description'),
