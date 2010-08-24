@@ -5,6 +5,7 @@ Series 6.x-x.x, 2010-08-23
 by greenSkin: Fixed text referencing Lesson Series rather than simply Series.
 by greenSkin: Added function series_get_tree() that returns an array of all
   series.
+by greenSkin: Added dependency on taxonomy.
 
 
 Series 6.x-x.x, 2010-08-19
