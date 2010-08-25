@@ -443,6 +443,9 @@ function series_load($param) {
           $term_series->nodes[$data['nid']] = $data;
         }
 
+        // Sort the nodes by weight.
+        uasort($term_series->nodes, 'series_sort');
+
         // Save to cache.
         cache_set('series:'. $tid, $term_series, 'cache_series');
       }
@@ -484,10 +487,31 @@ function series_navigation_links($series, $node) {
   return array($prev, $next);
 }
 
+/**
+ * Gets the series vocabulary tree.
+ */
+function series_get_tree() {
+  $vid = variable_get('series_vid', 0);
+  if ($vid > 0) {
+    return taxonomy_get_tree($vid, 0, -1, 1);
+  }
+  return FALSE;
+}
+
 function series_select_nodes($tid) {
   $sql = 'SELECT DISTINCT(n.nid), n.sticky, n.title, n.created, n.type, sw.weight FROM {node} n INNER JOIN {term_node} tn ON n.vid = tn.vid LEFT JOIN {series_weight} sw ON n.nid = sw.nid AND tn.tid = sw.tid WHERE tn.tid = %d ORDER BY sw.weight, n.title';
   $sql = db_rewrite_sql($sql);
   return db_query($sql, array($tid));
+}
+
+/**
+ * Helper function to sort nodes within a series.
+ */
+function series_sort($a, $b) {
+  if ($a['weight'] == $b['weight']) {
+    return 0;
+  }
+  return ($a['weight'] < $b['weight']) ? -1 : 1;
 }
 
 function _series_load_node_series($node) {

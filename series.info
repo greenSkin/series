@@ -2,4 +2,5 @@
 name = Series
 description = "Provides the ability to tie nodes into series."
 dependencies[] = views
+dependencies[] = taxonomy
 core = 6.x
