@@ -534,32 +534,29 @@ function _series_load_node_series($node) {
 
 function theme_series_content($element) {
   drupal_add_css(drupal_get_path('module','series') .'/css/series_nav.css');
-  
-  $output = '<div class="series_navigation">';
-  if (isset($element['navigation'])) {
-    $output .= drupal_render($element['navigation']);
-  }
-  $output .= '<div class="series_information">';
-    
+
+  $output = '<div class="series-content">';
+
+  if (isset($element['navigation'])) $output .= drupal_render($element['navigation']);
+
+  $output .= '<div class="series-information">';
   $output .= '<div class="intro">' . t('The article your are reading is part @current of @total in a series', array('@current' => drupal_render($element['information']['current']), '@total' => drupal_render($element['information']['total']))) .':</div>';
-  
   $output .= drupal_render($element['information']);
   $output .= '</div>';
-  
   $output .= drupal_render($element);
   $output .= '</div>';
-  
+
   return $output;
 }
 
 function theme_series_information_title($series) {
-  return '<h4 class="series_title">'. l($series->name, 'series/'. $series->tid, array('attributes' => array('title' => t('View the entire series: %name', array('%name' => $series->name))))) .'</h4>';
+  return '<h4 class="series-title">'. l($series->name, 'series/'. $series->tid, array('attributes' => array('title' => t('View the entire series: %name', array('%name' => $series->name))))) .'</h4>';
 }
 
 function theme_series_navigation($element) {
   $output .= '<div class="previous">'. drupal_render($element['previous']) .'</div>';
   $output .= '<div class="next">'. drupal_render($element['next']) .'</div>';
-  
+
   $output .= drupal_render($element);
   return $output;
 }

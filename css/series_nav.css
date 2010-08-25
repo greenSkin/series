@@ -1,25 +1,25 @@
 /* $Id$ */
 
-.series_navigation {
+.series-content {
   border: 1px solid #d5d5d5;
   margin-bottom: 1em;
   padding: .5em;
 }
 
-.series_navigation .intro {
+.series-content .intro {
   text-align: center;
   font-style: italic;
 }
 
-.series_navigation .next {
+.series-content .next {
   float: right;
 }
 
-.series_navigation .previous {
+.series-content .previous {
   float: left;
 }
 
-.series_navigation h4 {
+.series-content h4 {
   text-align: center;
   margin: 0;
 }

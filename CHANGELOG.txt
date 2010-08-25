@@ -1,8 +1,18 @@
 // $Id: CHANGELOG.txt,v 1.1 2010/07/27 15:20:50 greenskin Exp $
 
+Series 6.x-x.x, 2010-08-25
+--------------------------
+by designerbrent: Finally, the nav bar is now working correctly and good to go!
+by greenSkin: Updated CHANGELOG.txt to better reflect commit messages.
+by greenSkin: Cleaned up code, removed unneeded tabs from code. Changed classes
+  to use dashes instead of underscore.
+
+
 Series 6.x-x.x, 2010-08-24
 --------------------------
 by greenSkin: Sort the series nodes by their weight.
+by designerbrent: More changes to get navigation working. Still need to get the
+  css right but it's closer.
 
 
 Series 6.x-x.x, 2010-08-23
