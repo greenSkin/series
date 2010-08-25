@@ -510,25 +510,20 @@ function _series_load_node_series($node) {
 }
 
 function theme_series_content($element) {
-  dpm($element);
-  // drupal_add_css(drupal_get_path('module','series') .'/css/series_nav.css');
+  drupal_add_css(drupal_get_path('module','series') .'/css/series_nav.css');
   
   $output = '<div class="series_navigation">';
-  $output .= drupal_render($element['navigation']['previous']);
-  
+  if (isset($element['navigation'])) {
+    $output .= drupal_render($element['navigation']);
+  }
   $output .= '<div class="series_information">';
     
   $output .= '<div class="intro">' . t('The article your are reading is part @current of @total in a series', array('@current' => drupal_render($element['information']['current']), '@total' => drupal_render($element['information']['total']))) .':</div>';
   
   $output .= drupal_render($element['information']);
   $output .= '</div>';
-  $output .= drupal_render($element['navigation']['next']);
   
-  // if (isset($element['navigation'])) {
-  //   $output .= drupal_render($element['navigation']);
-  // }
-  // 
-  // $output .= drupal_render($element);
+  $output .= drupal_render($element);
   $output .= '</div>';
   
   return $output;
