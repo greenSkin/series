@@ -7,6 +7,7 @@ by greenSkin: Fixed issue where new series nodes do not get added to the end of
   exact weight. http://projects.positivechoices.com/pc/node/201
 by greenSkin: Fixed trying to output 'previous' and 'next' when they do not
   exist.
+by greenSkin: Grammar fix: you instead of your.
 
 
 Series 6.x-x.x, 2010-08-25
