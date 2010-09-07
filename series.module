@@ -559,8 +559,14 @@ function theme_series_information_title($series) {
 }
 
 function theme_series_navigation($element) {
-  $output .= '<div class="previous">'. drupal_render($element['previous']) .'</div>';
-  $output .= '<div class="next">'. drupal_render($element['next']) .'</div>';
+  $output = '';
+
+  if (isset($element['previous'])) {
+    $output .= '<div class="previous">'. drupal_render($element['previous']) .'</div>';
+  }
+  if (isset($element['next'])) {
+    $output .= '<div class="next">'. drupal_render($element['next']) .'</div>';
+  }
 
   $output .= drupal_render($element);
   return $output;

@@ -5,6 +5,8 @@ Series 6.x-x.x, 2010-09-07
 by greenSkin: Fixed issue where new series nodes do not get added to the end of
   the series when other nodes exist in the series but haven't yet been given an
   exact weight. http://projects.positivechoices.com/pc/node/201
+by greenSkin: Fixed trying to output 'previous' and 'next' when they do not
+  exist.
 
 
 Series 6.x-x.x, 2010-08-25
