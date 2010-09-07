@@ -437,7 +437,12 @@ function series_load($param) {
             // The node hasn't yet been given a set weight so we give it a temp
             // weight that equals the number of nodes currently in the series
             // object.
-            $data['weight'] = count($term_series->nodes);
+            $count = count($term_series->nodes);
+            $data['weight'] = $count;
+
+            // Record the temp weight. This ensures newly added nodes to the
+            // series get added to the bottom.
+            db_query("INSERT INTO {series_weight} (tid, nid, weight) VALUES (%d, %d, %d)", $term_series->tid, $data['nid'], $count);
           }
           $term_series->nodes[$data['nid']] = $data;
         }
@@ -534,32 +539,35 @@ function _series_load_node_series($node) {
 
 function theme_series_content($element) {
   drupal_add_css(drupal_get_path('module','series') .'/css/series_nav.css');
-  
-  $output = '<div class="series_navigation">';
-  if (isset($element['navigation'])) {
-    $output .= drupal_render($element['navigation']);
-  }
-  $output .= '<div class="series_information">';
-    
-  $output .= '<div class="intro">' . t('The article your are reading is part @current of @total in a series', array('@current' => drupal_render($element['information']['current']), '@total' => drupal_render($element['information']['total']))) .':</div>';
-  
+
+  $output = '<div class="series-content">';
+
+  if (isset($element['navigation'])) $output .= drupal_render($element['navigation']);
+
+  $output .= '<div class="series-information">';
+  $output .= '<div class="intro">' . t('The article you are reading is part @current of @total in a series', array('@current' => drupal_render($element['information']['current']), '@total' => drupal_render($element['information']['total']))) .':</div>';
   $output .= drupal_render($element['information']);
   $output .= '</div>';
-  
   $output .= drupal_render($element);
   $output .= '</div>';
-  
+
   return $output;
 }
 
 function theme_series_information_title($series) {
-  return '<h4 class="series_title">'. l($series->name, 'series/'. $series->tid, array('attributes' => array('title' => t('View the entire series: %name', array('%name' => $series->name))))) .'</h4>';
+  return '<h4 class="series-title">'. l($series->name, 'series/'. $series->tid, array('attributes' => array('title' => t('View the entire series: %name', array('%name' => $series->name))))) .'</h4>';
 }
 
 function theme_series_navigation($element) {
-  $output .= '<div class="previous">'. drupal_render($element['previous']) .'</div>';
-  $output .= '<div class="next">'. drupal_render($element['next']) .'</div>';
-  
+  $output = '';
+
+  if (isset($element['previous'])) {
+    $output .= '<div class="previous">'. drupal_render($element['previous']) .'</div>';
+  }
+  if (isset($element['next'])) {
+    $output .= '<div class="next">'. drupal_render($element['next']) .'</div>';
+  }
+
   $output .= drupal_render($element);
   return $output;
 }
