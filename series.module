@@ -437,7 +437,12 @@ function series_load($param) {
             // The node hasn't yet been given a set weight so we give it a temp
             // weight that equals the number of nodes currently in the series
             // object.
-            $data['weight'] = count($term_series->nodes);
+            $count = count($term_series->nodes);
+            $data['weight'] = $count;
+
+            // Record the temp weight. This ensures newly added nodes to the
+            // series get added to the bottom.
+            db_query("INSERT INTO {series_weight} (tid, nid, weight) VALUES (%d, %d, %d)", $term_series->tid, $data['nid'], $count);
           }
           $term_series->nodes[$data['nid']] = $data;
         }

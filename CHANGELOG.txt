@@ -1,5 +1,12 @@
 // $Id: CHANGELOG.txt,v 1.1 2010/07/27 15:20:50 greenskin Exp $
 
+Series 6.x-x.x, 2010-09-07
+--------------------------
+by greenSkin: Fixed issue where new series nodes do not get added to the end of
+  the series when other nodes exist in the series but haven't yet been given an
+  exact weight. http://projects.positivechoices.com/pc/node/201
+
+
 Series 6.x-x.x, 2010-08-25
 --------------------------
 by designerbrent: Finally, the nav bar is now working correctly and good to go!
