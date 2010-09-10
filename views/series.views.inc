@@ -24,6 +24,15 @@ function series_views_data() {
       'handler' => 'views_handler_sort'
     )
   );
+  $data['term_data']['series_term_id'] = array(
+    'real field' => 'tid',
+    'title' => t('Series ID'),
+    'help' => t('The series term ID.'),
+    'group' => t('Series'),
+    'argument' => array(
+      'handler' => 'series_handler_argument_series_term_id'
+    )
+  );
   return $data;
 }
 
@@ -38,6 +47,9 @@ function series_views_handlers() {
     'handlers' => array(
       'series_handler_filter_series_node_weight' => array(
         'parent' => 'views_handler_filter'
+      ),
+      'series_handler_argument_series_term_id' => array(
+        'parent' => 'views_handler_argument_term_node_tid'
       )
     )
   );
