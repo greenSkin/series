@@ -1,5 +1,11 @@
 // $Id: CHANGELOG.txt,v 1.1 2010/07/27 15:20:50 greenskin Exp $
 
+Series 6.x-x.x, 2010-09-13
+--------------------------
+by greenSkin: Now using a argument validator plugin rather than an argument 
+  handler to verify an taxonomy term argument is a series id.
+
+
 Series 6.x-x.x, 2010-09-10
 --------------------------
 by greenSkin: Added a argument handler to simplify using a Series ID as the 

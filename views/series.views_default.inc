@@ -265,7 +265,7 @@ function series_views_default_views() {
     ),
   ));
   $handler->override_option('arguments', array(
-    'tid' => array(
+    'series_term_id' => array(
       'default_action' => 'not found',
       'style_plugin' => 'default_summary',
       'style_options' => array(),
@@ -277,14 +277,17 @@ function series_views_default_views() {
       'default_argument' => '',
       'validate_type' => 'taxonomy_term',
       'validate_fail' => 'not found',
-      'break_phrase' => 0,
       'add_table' => 0,
       'require_value' => 0,
       'reduce_duplicates' => 0,
       'set_breadcrumb' => 0,
-      'id' => 'tid',
-      'table' => 'term_node',
-      'field' => 'tid',
+      'id' => 'series_term_id',
+      'table' => 'term_data',
+      'field' => 'series_term_id',
+      'validate_argument_vocabulary' => array(
+        '1' => '1',
+      ),
+      'validate_argument_type' => 'tid',
       'validate_user_argument_type' => 'uid',
       'validate_user_roles' => array(
         '2' => 0,
@@ -292,28 +295,18 @@ function series_views_default_views() {
       ),
       'relationship' => 'none',
       'default_options_div_prefix' => '',
-      'default_argument_user' => 0,
       'default_argument_fixed' => '',
+      'default_argument_user' => 0,
       'default_argument_php' => '',
       'validate_argument_node_type' => array(
-        'webform' => 0,
+        'lesson' => 0,
         'page' => 0,
-        'profile' => 0,
-        'simplenews' => 0,
-        'story' => 0,
       ),
       'validate_argument_node_access' => 0,
       'validate_argument_nid_type' => 'nid',
-      'validate_argument_vocabulary' => array(
-        '2' => 0,
-      ),
-      'validate_argument_type' => 'tid',
       'validate_argument_transform' => 0,
       'validate_user_restrict_roles' => 0,
       'validate_argument_php' => '',
-      'override' => array(
-        'button' => 'Override',
-      ),
     ),
   ));
   $handler->override_option('filters', array(
