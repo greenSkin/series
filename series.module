@@ -12,7 +12,7 @@
  * Implementation of hook_perm().
  */
 function series_perm() {
-  return array('view all series', 'edit own series', 'edit any series');
+  return array('view all series', 'edit own series', 'edit any series', 'administer series');
 }
 
 /**

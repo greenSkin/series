@@ -5,6 +5,8 @@ Series 6.x-x.x, 2010-09-13
 by greenSkin: Now using a argument validator plugin rather than an argument 
   handler to verify an taxonomy term argument is a series id.
 by greenSkin: Updated Views defaults.
+by greenSkin: Added Views filter for filtering by Series vocabulary. Updated 
+  Views defaults to include new Series vocabulary filter.
 
 
 Series 6.x-x.x, 2010-09-10

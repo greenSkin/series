@@ -124,18 +124,18 @@ function series_views_default_views() {
     ),
   ));
   $handler->override_option('filters', array(
-    'vid' => array(
-      'operator' => 'in',
-      'value' => array(),
+    'series_vocabulary' => array(
+      'operator' => '=',
+      'value' => '',
       'group' => '0',
       'exposed' => FALSE,
       'expose' => array(
         'operator' => FALSE,
         'label' => '',
       ),
-      'id' => 'vid',
+      'id' => 'series_vocabulary',
       'table' => 'term_data',
-      'field' => 'vid',
+      'field' => 'series_vocabulary',
       'relationship' => 'none',
     ),
   ));

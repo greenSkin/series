@@ -24,6 +24,15 @@ function series_views_data() {
       'handler' => 'views_handler_sort'
     )
   );
+  $data['term_data']['series_vocabulary'] = array(
+    'real field' => 'vid',
+    'title' => t('Series vocabulary'),
+    'help' => t('The Series vocabulary.'),
+    'group' => t('Series'),
+    'filter' => array(
+      'handler' => 'series_handler_filter_series_vocabulary'
+    )
+  );
   return $data;
 }
 
@@ -37,6 +46,9 @@ function series_views_handlers() {
     ),
     'handlers' => array(
       'series_handler_filter_series_node_weight' => array(
+        'parent' => 'views_handler_filter'
+      ),
+      'series_handler_filter_series_vocabulary' => array(
         'parent' => 'views_handler_filter'
       )
     )
