@@ -265,7 +265,7 @@ function series_views_default_views() {
     ),
   ));
   $handler->override_option('arguments', array(
-    'series_term_id' => array(
+    'tid' => array(
       'default_action' => 'not found',
       'style_plugin' => 'default_summary',
       'style_options' => array(),
@@ -275,19 +275,16 @@ function series_views_default_views() {
       'breadcrumb' => '',
       'default_argument_type' => 'fixed',
       'default_argument' => '',
-      'validate_type' => 'taxonomy_term',
+      'validate_type' => 'series_id',
       'validate_fail' => 'not found',
+      'break_phrase' => 0,
       'add_table' => 0,
       'require_value' => 0,
       'reduce_duplicates' => 0,
       'set_breadcrumb' => 0,
-      'id' => 'series_term_id',
-      'table' => 'term_data',
-      'field' => 'series_term_id',
-      'validate_argument_vocabulary' => array(
-        '1' => '1',
-      ),
-      'validate_argument_type' => 'tid',
+      'id' => 'tid',
+      'table' => 'term_node',
+      'field' => 'tid',
       'validate_user_argument_type' => 'uid',
       'validate_user_roles' => array(
         '2' => 0,
@@ -304,6 +301,10 @@ function series_views_default_views() {
       ),
       'validate_argument_node_access' => 0,
       'validate_argument_nid_type' => 'nid',
+      'validate_argument_vocabulary' => array(
+        '1' => 0,
+      ),
+      'validate_argument_type' => 'tid',
       'validate_argument_transform' => 0,
       'validate_user_restrict_roles' => 0,
       'validate_argument_php' => '',
