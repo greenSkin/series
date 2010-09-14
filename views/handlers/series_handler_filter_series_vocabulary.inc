@@ -18,7 +18,7 @@ class series_handler_filter_series_vocabulary extends views_handler_filter {
   function options_form(&$form, &$form_state) {
     $form['series_vocabulary']['markup'] = array(
       '#prefix' => '<div class="description">',
-      '#value' => t('The set Series vocabulary can be adjusted in the !link.', array('!link' => l(t('Series settings section'), 'admin/settings/series', array('query' => drupal_get_destination())))),
+      '#value' => t('The set Series vocabulary can be adjusted on the !link.', array('!link' => l(t('Series settings page'), 'admin/settings/series', array('query' => drupal_get_destination())))),
       '#suffix' => '</div>'
     );
   }
