@@ -383,6 +383,10 @@ function series_access($op, $series, $account = NULL) {
 
 function series_views_access($name, $display_id) {
   if ($view = views_get_view($name)) {
+    if ($view->disabled) {
+      return FALSE;
+    }
+
     $view->init_display();
     $args = $view->display[$display_id]->handler->get_access_plugin()->get_access_callback();
     return call_user_func_array('views_access', $args);

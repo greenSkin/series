@@ -3,6 +3,7 @@
 Series 6.x-x.x, 2010-09-14
 --------------------------
 by greenSkin: Modified text grammar.
+by greenSkin: Disallow access to a disabled view.
 
 
 Series 6.x-x.x, 2010-09-13
