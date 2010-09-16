@@ -383,7 +383,7 @@ function series_access($op, $series, $account = NULL) {
 
 function series_views_access($name, $display_id) {
   if ($view = views_get_view($name)) {
-    if ($view->disabled) {
+    if (isset($view->disabled) && $view->disabled) {
       return FALSE;
     }
 
