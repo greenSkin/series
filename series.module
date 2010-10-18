@@ -237,7 +237,8 @@ function series_block($op = 'list', $delta = 0, $edit = array()) {
   switch ($op) {
     case 'list':
       $blocks[0] = array(
-        'info' => t('Series navigation')
+        'info' => t('Series navigation'),
+        'cache' => BLOCK_NO_CACHE
       );
       return $blocks;
     case 'view':

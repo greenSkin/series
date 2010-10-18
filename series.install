@@ -65,3 +65,10 @@ function series_install() {
 function series_uninstall() {
   drupal_uninstall_schema('series');
 }
+
+/**
+ * Set the series navigation block to not cache.
+ */
+function series_update_6000() {
+  db_query("UPDATE {blocks} SET cache = %d WHERE module = '%s' AND delta = %d", BLOCK_NO_CACHE, 'series', 0);
+}
