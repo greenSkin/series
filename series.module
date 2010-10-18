@@ -541,7 +541,7 @@ function theme_series_content($element) {
   }
   $output .= '<div class="series_information">';
     
-  $output .= '<div class="intro">' . t('The article your are reading is part @current of @total in a series', array('@current' => drupal_render($element['information']['current']), '@total' => drupal_render($element['information']['total']))) .':</div>';
+  $output .= '<div class="intro">' . t('The article your are reading is part !current of !total in a series', array('!current' => drupal_render($element['information']['current']), '!total' => drupal_render($element['information']['total']))) .':</div>';
   
   $output .= drupal_render($element['information']);
   $output .= '</div>';
