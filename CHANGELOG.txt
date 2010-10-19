@@ -3,6 +3,7 @@
 Series 6.x-x.x, 2010-10-18
 --------------------------
 by greenSkin: Set the series navigation block to not cache.
+by greenSkin: Added node status to Series edit table.
 
 
 Series 6.x-x.x, 2010-09-07
