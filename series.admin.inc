@@ -174,7 +174,7 @@ function series_edit_form_create_redirect($form, &$form_state) {
 function theme_series_edit_form($form) {
   drupal_add_tabledrag('series-nodes', 'order', 'sibling', 'node-weight');
 
-  $headers = array(t('Title'), t('Weight'), t('Operations'));
+  $headers = array(t('Title'), t('Status'), t('Weight'), t('Operations'));
   $rows = array();
 
   foreach (element_children($form['nodes']) as $nid) {
@@ -185,8 +185,10 @@ function theme_series_edit_form($form) {
     if (user_access('edit any '. $form['#series']->nodes[$nid]['type'] .' content')) {
       $operations[] = l(t('Edit'), 'node/'. $nid .'/edit');
     }
+    $status = db_result(db_query("SELECT status FROM {node} WHERE nid = %d", $nid));
     $row = array(
       array('data' => check_plain($form['#series']->nodes[$nid]['title'])),
+      array('data' => ($status) ? t('Published') : t('Unpublished')),
       array('data' => drupal_render($form['nodes'][$nid])),
       array('data' => theme('item_list', $operations, NULL, 'ul', array('class' => 'links')))
     );

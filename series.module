@@ -550,7 +550,8 @@ function theme_series_content($element) {
   if (isset($element['navigation'])) $output .= drupal_render($element['navigation']);
 
   $output .= '<div class="series-information">';
-  $output .= '<div class="intro">' . t('The article you are reading is part @current of @total in a series', array('@current' => drupal_render($element['information']['current']), '@total' => drupal_render($element['information']['total']))) .':</div>';
+  $output .= '<div class="intro">' . t('The article you are reading is part !current of !total in a series', array('!current' => drupal_render($element['information']['current']), '!total' => drupal_render($element['information']['total']))) .':</div>';
+
   $output .= drupal_render($element['information']);
   $output .= '</div>';
   $output .= drupal_render($element);
